@@ -735,6 +735,16 @@ function setRainVolume(value){
 
 }
 
+// Wire up both sets of volume controls (10% per tap).
+$('autoVolDown').addEventListener('click', () => setAutoVolume(autoVolume - 0.1));
+$('autoVolUp').addEventListener('click', () => setAutoVolume(autoVolume + 0.1));
+$('rainVolDown').addEventListener('click', () => setRainVolume(rainVolume - 0.1));
+$('rainVolUp').addEventListener('click', () => setRainVolume(rainVolume + 0.1));
+
+// Apply initial levels immediately so both sounds start at their displayed volume.
+setAutoVolume(autoVolume);
+setRainVolume(rainVolume);
+
 $('amb').onclick = async ()=>{
   amb = !amb;
   $('amb').classList.toggle('off', !amb);
