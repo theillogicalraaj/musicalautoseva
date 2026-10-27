@@ -244,6 +244,24 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 @media(max-width:480px){.track-seek{grid-template-columns:30px minmax(48px,1fr) 30px;gap:4px;padding:4px 8px 8px}.seek-time{font-size:9px}.music-volume-pop{right:8px;top:auto;bottom:76px;max-width:calc(100vw - 24px)}.music-volume-pop input{width:min(32vw,125px)}}
 @media(orientation:landscape) and (max-height:500px){.title{font-size:clamp(30px,6vw,56px)}.hero{top:58px}.track-seek{padding-bottom:5px}}
 
+
+/* Final compact horizontal hover volume controls + translucent vehicle selector */
+.top{position:fixed;z-index:50}
+.sound-control{background:rgba(8,10,12,.30)!important;border-color:rgba(255,255,255,.22)!important;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.sound-control .pill{gap:4px!important;padding:0 7px!important}
+.sound-control .volume-pair{height:25px!important;transition:width .22s ease,max-width .22s ease,opacity .18s ease,padding .22s ease!important}
+.sound-control:hover .volume-pair,.sound-control:focus-within .volume-pair,.sound-control.is-expanded .volume-pair{width:112px!important;max-width:36vw!important;padding-left:7px!important}
+.sound-control .volume-pair input[type=range]{width:68px!important;min-width:42px!important;max-width:20vw!important}
+.sound-control .volume-pair span{min-width:25px!important;font-size:9px!important}
+.vehicle-select{background:rgba(0,0,0,.20)!important;border-color:rgba(255,255,255,.22)!important;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);transition:background .2s,border-color .2s}
+.vehicle-select:hover,.vehicle-select:focus{background:rgba(0,0,0,.34)!important;border-color:rgba(255,255,255,.45)!important}
+.music-volume-pop{position:fixed;right:104px;top:108px;width:auto;max-width:calc(100vw - 20px);gap:7px;padding:5px 8px;border-radius:999px;background:rgba(8,10,12,.30);border-color:rgba(255,255,255,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:1000}
+.music-volume-pop input{width:76px;min-width:48px;max-width:20vw}
+.music-volume-pop span{font-size:10px;white-space:nowrap}
+@media(hover:hover){.music-volume-pop{pointer-events:none}.music-volume-pop.open,.music-volume-pop:hover,.music-volume-pop:focus-within{pointer-events:auto}}
+@media(max-width:640px){.top{left:6px!important;right:6px!important;gap:4px!important}.sound-control .pill{font-size:10px!important;padding:0 5px!important}.sound-control:hover .volume-pair,.sound-control:focus-within .volume-pair,.sound-control.is-expanded .volume-pair{width:94px!important;max-width:35vw!important}.sound-control .volume-pair input[type=range]{width:52px!important;min-width:36px!important}.music-volume-pop{right:8px;top:66px;padding:5px 7px}.music-volume-pop input{width:64px;min-width:40px}}
+@media(max-width:390px){.top{flex-wrap:wrap;justify-content:center}.sound-control .pill{font-size:9px!important}.sound-control:hover .volume-pair,.sound-control:focus-within .volume-pair,.sound-control.is-expanded .volume-pair{width:86px!important}.sound-control .volume-pair input[type=range]{width:44px!important;min-width:32px!important}.music-volume-pop{right:6px;top:105px}}
+
 </style>
 
 
@@ -309,6 +327,38 @@ button,.vehicle-select,.song-browser-trigger,.mode-switch button,.ctrl button{wi
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
 </style>
 
+
+/* Unified compact horizontal hover volume control: auto, rain and music */
+.music-volume-control{position:relative;overflow:visible!important;isolation:isolate;}
+.music-volume-control .pill{display:flex;align-items:center;gap:4px;}
+.music-volume-control .pill svg{width:18px;height:18px;fill:currentColor}
+.music-volume-control .music-label{display:inline;}
+.music-volume-control .music-volume-pop{position:static!important;inset:auto!important;transform:none!important;visibility:visible!important;display:flex!important;opacity:0!important;pointer-events:none!important;width:0!important;max-width:0!important;overflow:hidden!important;flex:0 0 auto!important;height:27px!important;padding:0!important;margin:0!important;border:0!important;border-left:0!important;border-radius:0!important;background:transparent!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;box-shadow:none!important;gap:5px!important;transition:width .24s ease,max-width .24s ease,opacity .18s ease,padding .24s ease!important;}
+.music-volume-control:hover .music-volume-pop,.music-volume-control:focus-within .music-volume-pop,.music-volume-control.is-expanded .music-volume-pop{width:112px!important;max-width:40vw!important;opacity:1!important;pointer-events:auto!important;padding-left:7px!important;border-left:1px solid rgba(255,255,255,.22)!important;}
+.music-volume-control .music-volume-pop input[type=range]{width:68px!important;min-width:40px!important;max-width:20vw!important;flex:0 0 auto!important;}
+.music-volume-control .music-volume-pop span{min-width:25px!important;font-size:9px!important;white-space:nowrap!important;}
+.music-volume-control.is-expanded{border-color:rgba(255,255,255,.65)!important;}
+@media(max-width:640px){.music-volume-control:hover .music-volume-pop,.music-volume-control:focus-within .music-volume-pop,.music-volume-control.is-expanded .music-volume-pop{width:94px!important;max-width:35vw!important}.music-volume-control .music-volume-pop input[type=range]{width:52px!important;min-width:34px!important}.music-volume-control .music-volume-pop span{min-width:22px!important;font-size:8px!important}}
+@media(max-width:390px){.music-volume-control .music-label{display:none}.music-volume-control:hover .music-volume-pop,.music-volume-control:focus-within .music-volume-pop,.music-volume-control.is-expanded .music-volume-pop{width:82px!important}.music-volume-control .music-volume-pop input[type=range]{width:42px!important;min-width:28px!important}}
+@media(hover:none){.music-volume-control .music-volume-pop{transition:width .2s ease,opacity .2s ease!important}}
+
+
+<style id="final-volume-layout-fix">
+/* Music control must match auto/rain controls; icon only, no floating popup or tooltip. */
+.sound-control.music-volume-control{position:relative!important;display:flex!important;align-items:center!important;flex:0 0 auto!important;min-width:0!important;max-width:100%!important;overflow:visible!important;isolation:isolate!important;z-index:20!important;}
+.sound-control.music-volume-control .pill{display:flex!important;align-items:center!important;justify-content:center!important;gap:0!important;width:auto!important;min-width:34px!important;max-width:42px!important;padding:0 8px!important;white-space:nowrap!important;}
+.sound-control.music-volume-control .music-label{display:none!important;width:0!important;overflow:hidden!important;}
+.sound-control.music-volume-control .volume-pair.music-volume-pop{position:static!important;inset:auto!important;transform:none!important;visibility:visible!important;display:flex!important;align-items:center!important;flex:0 0 auto!important;height:27px!important;width:0!important;min-width:0!important;max-width:0!important;opacity:0!important;overflow:hidden!important;pointer-events:none!important;gap:5px!important;padding:0!important;margin:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;transition:width .24s ease,max-width .24s ease,opacity .18s ease,padding .24s ease!important;}
+.sound-control.music-volume-control:hover .volume-pair.music-volume-pop,.sound-control.music-volume-control:focus-within .volume-pair.music-volume-pop,.sound-control.music-volume-control.is-expanded .volume-pair.music-volume-pop,.sound-control.music-volume-control .volume-pair.music-volume-pop.open{width:116px!important;max-width:40vw!important;min-width:0!important;opacity:1!important;pointer-events:auto!important;padding-left:8px!important;border-left:1px solid rgba(255,255,255,.22)!important;}
+.sound-control.music-volume-control .volume-pair.music-volume-pop input[type=range]{display:block!important;width:76px!important;min-width:44px!important;max-width:20vw!important;flex:0 1 76px!important;}
+.sound-control.music-volume-control .volume-pair.music-volume-pop span{display:inline-block!important;min-width:26px!important;font-size:10px!important;white-space:nowrap!important;}
+.sound-control.music-volume-control #mute{cursor:pointer!important;}
+.sound-control.music-volume-control #mute::after{content:none!important;}
+@media(max-width:640px){.sound-control.music-volume-control:hover .volume-pair.music-volume-pop,.sound-control.music-volume-control:focus-within .volume-pair.music-volume-pop,.sound-control.music-volume-control.is-expanded .volume-pair.music-volume-pop{width:100px!important;max-width:38vw!important}.sound-control.music-volume-control .volume-pair.music-volume-pop input[type=range]{width:60px!important;min-width:38px!important}.sound-control.music-volume-control .volume-pair.music-volume-pop span{min-width:22px!important;font-size:9px!important}}
+@media(max-width:390px){.sound-control.music-volume-control .pill{min-width:31px!important;max-width:36px!important;padding:0 6px!important}.sound-control.music-volume-control:hover .volume-pair.music-volume-pop,.sound-control.music-volume-control:focus-within .volume-pair.music-volume-pop,.sound-control.music-volume-control.is-expanded .volume-pair.music-volume-pop{width:88px!important;max-width:35vw!important}.sound-control.music-volume-control .volume-pair.music-volume-pop input[type=range]{width:48px!important;min-width:32px!important}}
+@media(hover:none){.sound-control.music-volume-control.is-expanded .volume-pair.music-volume-pop{opacity:1!important;pointer-events:auto!important}}
+</style>
+
 </head>
 
 <body>
@@ -327,12 +377,12 @@ button,.vehicle-select,.song-browser-trigger,.mode-switch button,.ctrl button{wi
 
   <div class="sound-control"><button class="pill off" id="amb" title="ऑटो की आवाज़ चालू/बंद"><i></i><span class="sound-icon" aria-hidden="true">🛺</span><span>ऑटो की आवाज़</span></button><div class="volume-pair" aria-label="ऑटो की आवाज़ का वॉल्यूम"><input type="range" id="autoVolumeSlider" min="0" max="100" value="70" aria-label="ऑटो की आवाज़ वॉल्यूम"><span id="autoVolValue">70%</span></div></div><div class="sound-control"><button class="pill off" id="rainToggle" title="बारिश चालू/बंद"><i></i><span class="sound-icon" aria-hidden="true">🌧️</span><span>बारिश</span></button><div class="volume-pair" aria-label="बारिश की आवाज़ का वॉल्यूम"><input type="range" id="rainVolumeSlider" min="0" max="100" value="60" aria-label="बारिश वॉल्यूम"><span id="rainVolValue">60%</span></div></div>
 
-  <button class="round" id="mute" title="Mute / Unmute"><svg viewBox="0 0 24 24" id="muteIc"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4z"/></svg></button>
+  <div class="sound-control music-volume-control"><button class="pill" id="mute" title="Music volume" aria-label="Music volume"><i></i><span class="sound-icon" aria-hidden="true">🔊</span><span class="music-label">Music</span></button><div class="volume-pair music-volume-pop" id="musicVolumePop" aria-label="Music volume"><input id="musicVolumeSlider" type="range" min="0" max="100" value="80" aria-label="Music volume"><span id="musicVolumeValue">80%</span></div></div>
 
   <select id="vehicleSelect" class="vehicle-select" aria-label="वाहन चुनें" title="वाहन/प्लेलिस्ट बदलें"><option value="auto">🛺 ऑटो रिक्शा</option><option value="bus">🚌 बस (जल्द)</option></select>
 
 </div>
-<div class="music-volume-pop" id="musicVolumePop"><span>♫ Music</span><input id="musicVolumeSlider" type="range" min="0" max="100" value="80" aria-label="Music volume"><span id="musicVolumeValue">80%</span></div>
+
 
 <div class="hero" id="hero">
 
@@ -716,8 +766,8 @@ let musicMuted=false;
 const musicSlider=$('musicVolumeSlider');
 const musicPopup=$('musicVolumePop');
 const musicMuteButton=$('mute');
-musicMuteButton.title='Open music volume control';
-musicMuteButton.setAttribute('aria-label','Open music volume control');
+musicMuteButton.removeAttribute('title');
+musicMuteButton.setAttribute('aria-label','Music volume');
 
 function animateMusicVolume(){
   if (window.anime && musicSlider) {
@@ -726,31 +776,40 @@ function animateMusicVolume(){
   }
 }
 let musicPopupCloseTimer=null;
+const musicControl=musicMuteButton.closest('.music-volume-control');
 function openMusicVolumePopup(){
   clearTimeout(musicPopupCloseTimer);
   musicPopup.classList.add('open');
+  musicControl.classList.add('is-expanded');
   applyMusicVolume();
-  if(window.anime) anime({targets:musicPopup,opacity:[0,1],translateY:[-5,0],scale:[.99,1],duration:180,easing:'easeOutCubic'});
+  if(window.anime) anime({targets:musicSlider,scaleX:[1,1.025,1],duration:220,easing:'easeOutQuad'});
 }
 function scheduleMusicPopupClose(){
   clearTimeout(musicPopupCloseTimer);
   musicPopupCloseTimer=setTimeout(()=>{
-    if(!musicPopup.matches(':hover') && !musicPopup.contains(document.activeElement) && !musicMuteButton.matches(':hover')) musicPopup.classList.remove('open');
+    if(!musicControl.matches(':hover')&&!musicPopup.contains(document.activeElement)){
+      musicPopup.classList.remove('open'); musicControl.classList.remove('is-expanded');
+    }
   },220);
 }
-musicMuteButton.onclick=()=>{
-  if(musicPopup.classList.contains('open')) musicPopup.classList.remove('open');
-  else openMusicVolumePopup();
+musicMuteButton.onclick=(e)=>{
+  if(window.matchMedia('(hover: none)').matches){
+    e.preventDefault();
+    musicControl.classList.toggle('is-expanded');
+    musicPopup.classList.toggle('open',musicControl.classList.contains('is-expanded'));
+    if(musicControl.classList.contains('is-expanded')) applyMusicVolume();
+  } else { openMusicVolumePopup(); }
 };
-musicMuteButton.addEventListener('mouseenter',openMusicVolumePopup);
-musicMuteButton.addEventListener('mouseleave',scheduleMusicPopupClose);
-musicPopup.addEventListener('mouseenter',()=>clearTimeout(musicPopupCloseTimer));
+musicControl.addEventListener('mouseenter',openMusicVolumePopup);
+musicControl.addEventListener('mouseleave',scheduleMusicPopupClose);
+musicPopup.addEventListener('mouseenter',()=>{clearTimeout(musicPopupCloseTimer);musicPopup.classList.add('open');musicControl.classList.add('is-expanded');});
 musicPopup.addEventListener('mouseleave',scheduleMusicPopupClose);
+musicPopup.addEventListener('pointerdown',()=>clearTimeout(musicPopupCloseTimer));
 document.addEventListener('click',e=>{
-  if(!musicPopup.contains(e.target)&&!musicMuteButton.contains(e.target))musicPopup.classList.remove('open');
+  if(!musicControl.contains(e.target)&&window.matchMedia('(hover: none)').matches){musicPopup.classList.remove('open');musicControl.classList.remove('is-expanded');}
 });
 // On touch devices hover does not exist: tap a sound label to reveal its horizontal slider.
-document.querySelectorAll('.sound-control').forEach(control=>{
+document.querySelectorAll('.sound-control:not(.music-volume-control)').forEach(control=>{
   const labelButton=control.querySelector('.pill');
   if(labelButton) labelButton.addEventListener('click',()=>{
     if(window.matchMedia('(hover: none)').matches) control.classList.toggle('is-expanded');
