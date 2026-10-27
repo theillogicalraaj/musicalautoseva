@@ -32,16 +32,25 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 
 
 
-.sound-control{display:flex;align-items:center;gap:5px}
+/* Compact unified sound pills: label + slider share one clean glass container */
+.sound-control{display:flex;align-items:center;gap:0;padding:3px 7px 3px 3px;border:1px solid rgba(255,255,255,.24);border-radius:999px;background:rgba(8,10,12,.58);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 5px 18px rgba(0,0,0,.14);transition:border-color .25s,background .25s}
+.sound-control .pill{background:transparent!important;border:0!important;box-shadow:none!important;white-space:nowrap;padding:0 9px!important;height:29px!important;font-size:11px!important;}
+.sound-control .pill i{margin-right:5px}
+.sound-control .volume-pair{height:27px;border:0!important;border-left:1px solid rgba(255,255,255,.22)!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;padding:0 0 0 8px!important;backdrop-filter:none!important;gap:5px}
+.sound-control .volume-pair input[type=range]{width:64px;max-width:12vw}
+.sound-control .volume-pair span{min-width:25px;font-size:10px}
+.sound-control:focus-within{border-color:rgba(255,255,255,.75);background:rgba(8,10,12,.76)}
+.sound-control .volume-pair input[type=range]::-webkit-slider-thumb{transition:transform .18s,box-shadow .18s}
+.sound-control .volume-pair input[type=range]:active::-webkit-slider-thumb{transform:scale(1.25);box-shadow:0 0 0 5px rgba(255,255,255,.15)}
 
 .volume-pair{height:30px;display:flex;align-items:center;gap:3px;padding:2px 5px;border:1px solid rgba(255,255,255,.24);border-radius:999px;background:rgba(0,0,0,.48);color:#fff;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);font:600 10px system-ui,sans-serif}
 
 .volume-pair input[type=range]{width:78px;accent-color:#ff2145;cursor:pointer}.volume-pair span{min-width:27px;text-align:center;font-variant-numeric:tabular-nums;font-size:10px}
 .music-volume-pop{position:fixed;right:104px;top:108px;z-index:1000;display:none;align-items:center;gap:8px;padding:10px 13px;border:1px solid #555;border-radius:16px;background:rgba(12,15,18,.96);backdrop-filter:blur(14px)}.music-volume-pop.open{display:flex}.music-volume-pop input{width:125px;accent-color:#ff2145}.vehicle-select{max-width:145px;height:42px;border:1px solid rgba(255,255,255,.25);border-radius:24px;background:rgba(0,0,0,.55);color:#fff;padding:0 10px;font-weight:700;cursor:pointer}.vehicle-select option{background:#171717;color:white}
 
-@media(max-width:640px){.top{left:8px;right:8px;top:max(env(safe-area-inset-top),8px);gap:5px}.sound-control{gap:3px}.volume-pair{height:27px;padding:2px 4px;gap:2px}.volume-pair button{width:21px;height:21px}.top .pill{height:34px;padding:0 9px;font-size:10px}.volume-pair span{min-width:25px;font-size:9px}}
+@media(max-width:640px){.top{left:8px;right:8px;top:max(env(safe-area-inset-top),8px);gap:5px;flex-wrap:wrap}.sound-control{padding:2px 5px 2px 2px}.sound-control .pill{height:27px!important;padding:0 6px!important;font-size:10px!important}.sound-control .volume-pair{height:25px;padding-left:5px!important;gap:3px}.sound-control .volume-pair input[type=range]{width:48px;max-width:14vw}.sound-control .volume-pair span{min-width:22px;font-size:9px}.top .pill{height:34px;padding:0 9px;font-size:10px}}
 
-@media(max-width:390px){.top{gap:4px}.sound-control{gap:2px}.top .pill{padding:0 7px;font-size:9px}.volume-pair{gap:1px}.volume-pair button{width:19px;height:19px}}
+@media(max-width:390px){.top{gap:4px}.sound-control .pill{padding:0 5px!important;font-size:9px!important}.sound-control .volume-pair input[type=range]{width:39px}.sound-control .volume-pair span{min-width:20px;font-size:8px}}
 
 /* title overlay: responsive and easy to hide without stopping the video */
 
@@ -57,13 +66,13 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 
 .show-title.visible{display:block}
 
-.title{font-family:'Mukta',sans-serif;font-weight:800;line-height:.95;font-size:clamp(46px,9.2vw,128px);color:var(--red);
+.title{font-family:'Mukta',sans-serif;font-weight:800;line-height:.95;font-size:clamp(42px,7.1vw,94px);color:#f23b52;
+  -webkit-text-stroke:clamp(1.5px,.22vw,3px) #fff;paint-order:stroke fill;transform:rotate(-3deg);
+  filter:drop-shadow(2px 3px 0 rgba(0,0,0,.58)) drop-shadow(0 7px 18px rgba(0,0,0,.42));display:inline-block;max-width:94vw}
 
-  -webkit-text-stroke:clamp(5px,.9vw,12px) #fff;paint-order:stroke fill;transform:rotate(-6deg) skewX(-8deg);
-
-  filter:drop-shadow(5px 6px 0 rgba(0,0,0,.55)) drop-shadow(0 10px 25px rgba(0,0,0,.5));display:inline-block}
-
-.title span{display:block}
+.title span{display:block;white-space:nowrap}
+.title span:nth-child(2){font-size:.78em}
+@media(max-width:600px){.title{font-size:clamp(36px,10vw,62px);line-height:1.02;-webkit-text-stroke:1.5px #fff}.sub{margin-top:14px}}
 
 .title span:nth-child(2){font-size:.72em}
 
@@ -220,6 +229,18 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 @media(max-width:600px){.song-browser-trigger{right:10px;bottom:calc(max(env(safe-area-inset-bottom),10px) + 126px)}.song-browser{right:10px;bottom:calc(max(env(safe-area-inset-bottom),10px) + 166px);max-height:44dvh;width:min(340px,calc(100vw - 20px))}}
 @media(max-height:500px) and (orientation:landscape){.song-browser-trigger{bottom:82px}.song-browser{bottom:120px;max-height:52dvh}}
 
+
+.track-seek{display:grid;grid-template-columns:34px minmax(55px,1fr) 34px;align-items:center;gap:7px;padding:4px 10px 9px;width:100%;box-sizing:border-box}
+.seek-time{font:500 10px/1.2 system-ui,sans-serif;color:#e7e7e7;font-variant-numeric:tabular-nums;text-align:center}
+#trackSeek{width:100%;min-width:0;height:18px;margin:0;appearance:none;-webkit-appearance:none;background:transparent;cursor:pointer;touch-action:pan-y;--seek-progress:0%}
+#trackSeek::-webkit-slider-runnable-track{height:3px;border-radius:9px;background:linear-gradient(to right,#ff3555 0 var(--seek-progress),rgba(255,255,255,.3) var(--seek-progress) 100%)}
+#trackSeek::-moz-range-track{height:3px;border-radius:9px;background:rgba(255,255,255,.3)}#trackSeek::-moz-range-progress{height:3px;border-radius:9px;background:#ff3555}
+#trackSeek::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:11px;height:11px;border-radius:50%;background:#fff;box-shadow:0 0 0 3px #ff355540;margin-top:-4px;transition:transform .15s,box-shadow .15s}
+#trackSeek:active::-webkit-slider-thumb{transform:scale(1.25);box-shadow:0 0 0 6px #ff355530}
+#trackSeek::-moz-range-thumb{width:11px;height:11px;border:0;border-radius:50%;background:#fff;box-shadow:0 0 0 3px #ff355540}
+@media(max-width:480px){.track-seek{grid-template-columns:30px minmax(48px,1fr) 30px;gap:4px;padding:4px 8px 8px}.seek-time{font-size:9px}.music-volume-pop{right:8px;top:auto;bottom:76px;max-width:calc(100vw - 24px)}.music-volume-pop input{width:min(32vw,125px)}}
+@media(orientation:landscape) and (max-height:500px){.title{font-size:clamp(30px,6vw,56px)}.hero{top:58px}.track-seek{padding-bottom:5px}}
+
 </style>
 
 
@@ -252,6 +273,37 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 .player.yt-mini-card.auto-collapsed .yt-brand:after{content:' • '+attr(data-mode);font-size:10px;color:#ddd;font-weight:600;}
 .player.yt-mini-card:focus-within{width:min(314px,calc(100vw - 24px));}
 @media(max-width:600px){.player.yt-mini-card.auto-collapsed{width:min(190px,calc(100vw - 20px));}}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+
+<style id="animejs-cinematic-layer">
+:root{--anim-white:rgba(255,255,255,.92);--anim-glow:rgba(232,17,45,.36)}
+body{isolation:isolate}
+/* Ambient cinematic lighting without adding clutter */
+.shade{transition:background 1s ease;animation:ambientShade 12s ease-in-out infinite alternate}
+@keyframes ambientShade{from{opacity:.88}to{opacity:1}}
+.top{animation:topFloat 8s ease-in-out infinite;transform-origin:top center}
+@keyframes topFloat{0%,100%{translate:0 0}50%{translate:0 2px}}
+.sound-control{position:relative;overflow:hidden;isolation:isolate;transition:background .3s,border-color .3s,box-shadow .3s;}
+.sound-control:before{content:"";position:absolute;inset:-1px;z-index:-1;pointer-events:none;border-radius:inherit;background:linear-gradient(115deg,transparent 15%,rgba(255,255,255,.14) 48%,transparent 70%);transform:translateX(-130%);opacity:0}
+.sound-control.is-sweeping:before{opacity:1;animation:controlSweep 850ms ease-out}
+@keyframes controlSweep{to{transform:translateX(130%)}}
+.sound-control.is-on{border-color:rgba(255,255,255,.65);box-shadow:0 0 0 1px rgba(255,255,255,.06),0 0 22px rgba(255,255,255,.09),0 7px 20px rgba(0,0,0,.22)}
+.sound-control .pill{transition:color .25s,text-shadow .25s}
+.sound-control.is-on .pill{color:#fff!important;text-shadow:0 0 12px rgba(255,255,255,.24)}
+.volume-pair input[type=range]{transition:filter .25s}
+.volume-pair input[type=range]::-webkit-slider-thumb,.music-volume-pop input[type=range]::-webkit-slider-thumb{transition:transform .2s,box-shadow .2s,background .2s}
+.volume-pair input[type=range]:hover::-webkit-slider-thumb,.music-volume-pop input[type=range]:hover::-webkit-slider-thumb{transform:scale(1.35);box-shadow:0 0 0 5px rgba(255,255,255,.12),0 0 15px rgba(255,255,255,.4)}
+#musicMotionBars{display:inline-flex;align-items:center;gap:2px;height:17px;margin-left:8px;vertical-align:middle;opacity:.25;transition:opacity .25s}
+#musicMotionBars i{display:block;width:2px;height:4px;border-radius:5px;background:currentColor;transform-origin:center;will-change:transform,height}
+#musicMiniCard.is-playing #musicMotionBars{opacity:1;color:#fff;filter:drop-shadow(0 0 5px rgba(255,255,255,.55))}
+button,.vehicle-select,.song-browser-trigger,.mode-switch button,.ctrl button{will-change:transform}
+/* Soft animated focus ring for keyboard users */
+:where(button,input,select):focus-visible{outline:2px solid rgba(255,255,255,.85)!important;outline-offset:3px;transition:outline-offset .2s}
+/* Keep controls clean and compact on small screens */
+@media(max-width:640px){.top{animation:none}.sound-control{box-shadow:0 4px 14px rgba(0,0,0,.2)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
 </style>
 
 </head>
@@ -312,6 +364,11 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
       <button id="play" class="main" aria-label="Play/Pause" title="Play/Pause"><svg viewBox="0 0 24 24" id="playIc"><path d="M8 5v14l11-7z"/></svg></button>
       <button id="next" aria-label="Next" title="Next"><svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z"/></svg></button>
     </div>
+  </div>
+  <div class="track-seek" id="trackSeekWrap" aria-label="गाने की स्थिति">
+    <span class="seek-time" id="seekCurrent">0:00</span>
+    <input id="trackSeek" type="range" min="0" max="1000" value="0" step="1" aria-label="गाने में आगे या पीछे जाएँ">
+    <span class="seek-time" id="seekDuration">0:00</span>
   </div>
 </div>
 
@@ -383,15 +440,15 @@ function ensurePlayer(autoplay=true){
       playerVars: { autoplay:0, controls:1, playsinline:1, rel:0, enablejsapi:1, modestbranding:1, origin: location.origin },
       events: {
         onReady: function(e){
-          ytReady=true; ytLoading=false;
+          ytReady=true; ytLoading=false; setTimeout(()=>{try{applyMusicVolume();}catch(e){}},0);
           try { e.target.getIframe().setAttribute('referrerpolicy','strict-origin-when-cross-origin'); } catch(err){}
           // Start from the first item in the public Hindi music playlist.
           e.target.loadPlaylist({list:YT_PLAYLIST_ID,listType:'playlist',index:Math.max(0,Math.min(idx,PLAYLIST.length-1))});
           if(autoplay) setTimeout(()=>{try{e.target.setLoop(true);e.target.setShuffle(false);e.target.playVideo();}catch(err){}},700);
         },
         onStateChange: function(e){
-          if(e.data===YT.PlayerState.PLAYING){
-            $('playIc').innerHTML=PAUSE; $('time').textContent='YouTube पर चल रहा है';
+          if(e.data===YT.PlayerState.PLAYING){ try{applyMusicVolume();}catch(err){}
+            updateSeekUI();$('playIc').innerHTML=PAUSE; $('time').textContent='YouTube पर चल रहा है';
             try { const d=e.target.getVideoData(); if(d && d.title) setTitle(d.title); } catch(err){}
             ytSkipAttempts=0;
           } else if(e.data===YT.PlayerState.PAUSED){ $('playIc').innerHTML=PLAY; }
@@ -446,7 +503,7 @@ document.addEventListener('click',e=>{if($('songBrowser').classList.contains('op
 function load(i,autoplay){if(!tracks.length){toast('गाने अभी लोड हो रहे हैं।');return;}idx=(i+tracks.length)%tracks.length;const track=tracks[idx];setTitle(track.title);renderSongList();try{localStorage.setItem(RESUME_KEY,JSON.stringify({idx,title:track.title,mode:playMode}));}catch(e){} if(autoplay){if(playMode==='local')playLocal(idx);else {if(ytReady&&ytPlayer){try{ytPlayer.loadPlaylist({list:YT_PLAYLIST_ID,listType:'playlist',index:idx});setTimeout(()=>{try{ytPlayer.playVideo();}catch(e){}},500);}catch(e){ensurePlayer(true);}}else ensurePlayer(true);}}else toast('चुना गया: '+track.title+' — Play दबाएँ।');}
 function play(){if(playMode==='local')playLocal(idx);else ensurePlayer(true);}
 function toggle(){if(playMode==='local'){const a=$('localAudio');if(!a.src){playLocal(idx);return;}if(a.paused){a.play().catch(()=>toast('यह MP3 path नहीं चला। songs.json और songs/ folder जाँचें।'));}else a.pause();return;} if(!ytReady){ensurePlayer(true);return;} const state=ytPlayer.getPlayerState(); if(state===YT.PlayerState.PLAYING){ytPlayer.pauseVideo();$('playIc').innerHTML=PLAY;}else{ytPlayer.playVideo();$('playIc').innerHTML=PAUSE;}}
-function playLocal(i){if(!localTracks.length){toast('Local tracks नहीं मिले। पहले ♫ सभी गाने खोलकर Local Songs चुनें; songs.json में tracks होने चाहिए।');return;}idx=(i+localTracks.length)%localTracks.length;const t=localTracks[idx];setTitle(t.title);const a=$('localAudio');if(a.src!==t.src){a.src=t.src;a.load();}const p=a.play();if(p&&p.then)p.then(()=>{$('playIc').innerHTML=PAUSE;$('time').textContent='Local गाना चल रहा है';}).catch(()=>toast('गाना नहीं चला — songs.json में src path जाँचें।'));renderSongList();}
+function playLocal(i){if(!localTracks.length){toast('Local tracks नहीं मिले। पहले ♫ सभी गाने खोलकर Local Songs चुनें; songs.json में tracks होने चाहिए।');return;}idx=(i+localTracks.length)%localTracks.length;const t=localTracks[idx];setTitle(t.title);const a=$('localAudio');if(a.src!==t.src){a.src=t.src;a.load();}a.volume=musicVolume;a.muted=musicVolume===0;const p=a.play();if(p&&p.then)p.then(()=>{$('playIc').innerHTML=PAUSE;$('time').textContent='Local गाना चल रहा है';}).catch(()=>toast('गाना नहीं चला — songs.json में src path जाँचें।'));renderSongList();}
 $('localAudio').addEventListener('ended',()=>playLocal((idx+1)%localTracks.length));
 $('localAudio').addEventListener('pause',()=>{if(playMode==='local')$('playIc').innerHTML=PLAY;});
 $('localAudio').addEventListener('play',()=>{if(playMode==='local')$('playIc').innerHTML=PAUSE;});
@@ -462,7 +519,7 @@ function setMode(mode){
     setTitle(tracks[idx]?.title||'Local गाने लोड हो रहे हैं…');$('time').textContent='Local playlist';
     if(localTracks.length && !a.src) playLocal(idx);
   }else{
-    a.pause();$('youtubePlayer').style.display='block';
+    a.pause();if(tracks.length)idx=Math.floor(Math.random()*PLAYLIST.length);$('youtubePlayer').style.display='block';
     $('youtubeModeList').classList.add('active');$('localModeList').classList.remove('active');
     tracks=PLAYLIST.slice();idx=Math.min(idx,Math.max(0,tracks.length-1));
     setTitle(tracks[idx]?.title||'YouTube playlist');$('time').textContent='YouTube playlist';
@@ -496,13 +553,13 @@ async function loadHostedSongs(){
       return null;
     }).filter(Boolean);
     if(!localTracks.length)throw new Error('No local tracks');
-    tracks=localTracks;idx=0;playMode='local';setTitle(localTracks[0].title);
+    tracks=localTracks;idx=Math.floor(Math.random()*localTracks.length);playMode='local';setTitle(localTracks[idx].title);
     $('time').textContent=`Local playlist • ${localTracks.length} गाने`; syncMiniMode();
     renderSongList();
     // Request only the first audio file; never wait for all 58 files to download.
-    const a=$('localAudio');a.preload='auto';a.src=localTracks[0].src;a.load();
-    const attempt=a.play();
-    if(attempt&&attempt.then)attempt.then(()=>{$('playIc').innerHTML=PAUSE;$('time').textContent='Local गाना चल रहा है';}).catch(()=>{$('playIc').innerHTML=PLAY;$('time').textContent='Play दबाएँ';});
+    const a=$('localAudio');a.preload='metadata';a.src=localTracks[idx].src;a.load();
+    // Pick a different random starting song on each page visit, but do not force autoplay (browsers block it).
+    $('playIc').innerHTML=PLAY;$('time').textContent='Random song ready • Play दबाएँ';updateSeekUI();
   }catch(e){
     console.error(e);localTracks=[];tracks=[];renderSongList();setTitle('Local गाने उपलब्ध नहीं');
     $('time').textContent=location.protocol==='file:'?'START-MUSICAL-AUTO-SEVA.bat चलाएँ':'songs.json नहीं मिला';
@@ -652,11 +709,60 @@ $('rainToggle').onclick = async ()=>{
   }
 };
 let musicVolume=0.8;
-function applyMusicVolume(){const v=Math.round(musicVolume*100);$('musicVolumeSlider').value=v;$('musicVolumeValue').textContent=v+'%';const a=$('localAudio');a.volume=musicVolume;if(ytReady&&ytPlayer)try{ytPlayer.setVolume(v);ytPlayer.unMute();if(v===0)ytPlayer.mute();}catch(e){}}
-$('mute').title='Music volume';$('mute').onclick=()=>{$('musicVolumePop').classList.toggle('open');applyMusicVolume();};
-$('musicVolumeSlider').addEventListener('input',e=>{musicVolume=Number(e.target.value)/100;applyMusicVolume();});
-document.addEventListener('click',e=>{if(!$('musicVolumePop').contains(e.target)&&!$('mute').contains(e.target))$('musicVolumePop').classList.remove('open');});
+let musicMuted=false;
+const musicSlider=$('musicVolumeSlider');
+const musicPopup=$('musicVolumePop');
+const musicMuteButton=$('mute');
+musicMuteButton.title='Open music volume control';
+musicMuteButton.setAttribute('aria-label','Open music volume control');
+musicMuteButton.onclick=()=>{musicPopup.classList.toggle('open');applyMusicVolume();};
+// Keep the control responsive to mouse, touch, and keyboard input.
+musicSlider.addEventListener('input',e=>{
+  musicVolume=Math.max(0,Math.min(1,Number(e.target.value)/100));
+  musicMuted=musicVolume===0;
+  applyMusicVolume();
+});
+musicSlider.addEventListener('change',applyMusicVolume);
+document.addEventListener('click',e=>{
+  if(!musicPopup.contains(e.target)&&!musicMuteButton.contains(e.target))musicPopup.classList.remove('open');
+});
+// Apply volume to both playback engines, including after a player becomes ready.
+function applyMusicVolume(){
+  const slider=$('musicVolumeSlider'),label=$('musicVolumeValue');
+  const v=Math.round(musicVolume*100);
+  if(slider && Number(slider.value)!==v)slider.value=v;
+  if(label)label.textContent=v+'%';
+  const a=$('localAudio');
+  if(a){a.volume=musicVolume;a.muted=musicMuted||musicVolume===0;}
+  if(ytReady&&ytPlayer){
+    try{
+      if(musicMuted||v===0){ytPlayer.mute();}
+      else{ytPlayer.unMute();ytPlayer.setVolume(v);}
+    }catch(e){console.warn('Could not apply YouTube volume yet',e);}
+  }
+  musicMuteButton.classList.toggle('muted',musicMuted||musicVolume===0);
+}
+if($('localAudio')){
+  $('localAudio').addEventListener('play',applyMusicVolume);
+  $('localAudio').addEventListener('loadedmetadata',applyMusicVolume);
+  $('localAudio').addEventListener('volumechange',()=>{
+    const a=$('localAudio');
+    if(a && !a.muted && Number.isFinite(a.volume) && a.volume!==musicVolume){
+      musicVolume=a.volume;
+      if(musicSlider)musicSlider.value=Math.round(musicVolume*100);
+      if($('musicVolumeValue'))$('musicVolumeValue').textContent=Math.round(musicVolume*100)+'%';
+    }
+  });
+}
 applyMusicVolume();
+// Seek bar supports local audio and embedded YouTube, with periodic progress/time updates.
+const seek=$('trackSeek');let seekDragging=false;
+function seekDuration(){try{if(playMode==='local'){const d=$('localAudio').duration;return Number.isFinite(d)?d:0;}return ytReady&&ytPlayer?Number(ytPlayer.getDuration())||0:0;}catch(e){return 0;}}
+function seekCurrent(){try{if(playMode==='local')return Number($('localAudio').currentTime)||0;return ytReady&&ytPlayer?Number(ytPlayer.getCurrentTime())||0:0;}catch(e){return 0;}}
+function updateSeekUI(){const d=seekDuration(),c=Math.min(seekCurrent(),d||0);if(!$('seekCurrent'))return;$('seekCurrent').textContent=fmt(c);$('seekDuration').textContent=fmt(d);if(!seekDragging){const val=d?Math.round(c/d*1000):0;seek.value=val;seek.style.setProperty('--seek-progress',(val/10)+'%');}seek.disabled=!(d>0);}
+seek.addEventListener('pointerdown',()=>seekDragging=true);window.addEventListener('pointerup',()=>{if(!seekDragging)return;seekDragging=false;const d=seekDuration();if(d>0){const target=(Number(seek.value)/1000)*d;try{if(playMode==='local')$('localAudio').currentTime=target;else if(ytReady&&ytPlayer)ytPlayer.seekTo(target,true);}catch(e){} }updateSeekUI();});
+seek.addEventListener('input',()=>{const d=seekDuration(),v=Number(seek.value);seek.style.setProperty('--seek-progress',(v/10)+'%');if(d>0)$('seekCurrent').textContent=fmt(d*v/1000);});
+$('localAudio').addEventListener('timeupdate',updateSeekUI);$('localAudio').addEventListener('loadedmetadata',updateSeekUI);$('localAudio').addEventListener('durationchange',updateSeekUI);setInterval(updateSeekUI,500);
 $('vehicleSelect').addEventListener('change',e=>{if(e.target.value==='bus'){e.target.value='auto';toast('बस playlist जोड़ने के लिए bus.mp4 और बस के गाने उपलब्ध होने पर इसे चालू करेंगे।');return;}bg.src='auto.mp4';bg.load();bg.play().catch(()=>{});toast('ऑटो रिक्शा चुना गया');});
 
 
@@ -694,6 +800,134 @@ $('showTitle').addEventListener('click', ()=>{
 </script>
 
 
+<style>
+/* Full-site motion polish: light slider tracks, responsive transitions, and reduced-motion safety. */
+:root{--motion-accent:#ff536d;--motion-glow:rgba(255,65,95,.28)}
+button,.pill,.round,.vehicle-select,.song-browser-trigger,.mode-switch button,.ctrl button{transform-origin:center;will-change:transform}
+.volume-pair input[type=range],.music-volume-pop input[type=range]{appearance:none;-webkit-appearance:none;height:18px;background:transparent;outline:none;touch-action:pan-y}
+.volume-pair input[type=range]::-webkit-slider-runnable-track,.music-volume-pop input[type=range]::-webkit-slider-runnable-track{height:3px;border-radius:99px;background:linear-gradient(to right,#f6f6f6 var(--range-progress,50%),rgba(255,255,255,.22) var(--range-progress,50%))}
+.volume-pair input[type=range]::-moz-range-track,.music-volume-pop input[type=range]::-moz-range-track{height:3px;border-radius:99px;background:rgba(255,255,255,.24)}
+.volume-pair input[type=range]::-moz-range-progress,.music-volume-pop input[type=range]::-moz-range-progress{height:3px;border-radius:99px;background:#f6f6f6}
+.volume-pair input[type=range]::-webkit-slider-thumb,.music-volume-pop input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:9px;height:9px;border-radius:50%;background:#fff;border:1px solid rgba(0,0,0,.25);margin-top:-3px;box-shadow:0 0 0 2px rgba(255,255,255,.12);transition:box-shadow .18s,transform .18s}
+.volume-pair input[type=range]::-moz-range-thumb,.music-volume-pop input[type=range]::-moz-range-thumb{width:9px;height:9px;border:0;border-radius:50%;background:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.12)}
+.volume-pair input[type=range]:focus-visible::-webkit-slider-thumb,.music-volume-pop input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 5px rgba(255,255,255,.18)}
+#musicMotionBars{display:flex;align-items:center;justify-content:center;gap:3px;height:20px;min-width:42px;margin:3px auto 0;opacity:.8;pointer-events:none}
+#musicMotionBars i{display:block;width:3px;height:4px;border-radius:4px;background:linear-gradient(to top,#ff1744,#ffb4c0);transform-origin:center;box-shadow:0 0 7px rgba(255,40,75,.25)}
+#musicMiniCard.is-playing{box-shadow:0 18px 48px rgba(0,0,0,.48),0 0 0 1px rgba(255,70,100,.22),0 0 28px rgba(255,35,70,.10),inset 0 1px 0 rgba(255,255,255,.18)}
+#musicMiniCard.is-playing .yt-live-dot{box-shadow:0 0 0 3px rgba(255,48,79,.12),0 0 12px #ff304f}
+.pill:focus-visible,.round:focus-visible,button:focus-visible,.vehicle-select:focus-visible{outline:2px solid rgba(255,255,255,.85);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
+
+/* Clean Hindi hero title: legible, balanced, no overlapping strokes */
+.hero{top:clamp(105px,18vh,175px);padding:0 20px;max-width:100%;}
+.title{font-family:'Mukta','Noto Sans Devanagari',system-ui,sans-serif!important;font-weight:800!important;font-size:clamp(42px,5.8vw,82px)!important;line-height:1.12!important;letter-spacing:0!important;color:#fff!important;-webkit-text-stroke:0!important;paint-order:normal!important;transform:none!important;filter:drop-shadow(0 3px 0 rgba(0,0,0,.65)) drop-shadow(0 8px 22px rgba(0,0,0,.6))!important;text-shadow:2px 2px 0 rgba(255,35,65,.95)!important;display:block!important;margin:0 auto!important;max-width:min(900px,94vw);}
+.title span{display:inline!important;white-space:normal!important;}
+.title span+span::before{content:' ';white-space:pre;}
+.title span:nth-child(2){font-size:1em!important;}
+.sub{margin-top:18px!important;font-size:clamp(16px,1.8vw,23px)!important;line-height:1.5;text-shadow:0 2px 12px #000,0 0 22px rgba(0,0,0,.8)!important;}
+.title-tools{margin-top:12px!important;}
+@media(max-width:640px){.hero{top:clamp(95px,15vh,135px);padding:0 14px}.title{font-size:clamp(34px,8.5vw,54px)!important;line-height:1.2!important;max-width:95vw}.title span{display:inline!important}.sub{font-size:clamp(14px,3.8vw,18px)!important;margin-top:12px!important}}
+@media(max-height:500px) and (orientation:landscape){.hero{top:72px}.title{font-size:clamp(30px,5vw,48px)!important}.sub{font-size:13px!important;margin-top:6px!important}}
+</style>
+<script>
+// Anime.js 3.x interaction system for the whole page. Audio logic remains unchanged.
+(function () {
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasAnime = typeof window.anime === 'function';
+  const $ = (sel, root=document) => root.querySelector(sel);
+  const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+  const card = $('#musicMiniCard');
+  const hero = $('#hero');
+  const barsWrap = document.createElement('div');
+  barsWrap.id = 'musicMotionBars'; barsWrap.setAttribute('aria-hidden','true');
+  for(let i=0;i<13;i++){const bar=document.createElement('i');barsWrap.appendChild(bar);}
+  const meta = card && $('.yt-mini-meta', card);
+  if(meta && !$('#musicMotionBars')) meta.appendChild(barsWrap);
+
+  function animate(targets, params){ if(hasAnime && !reduceMotion) return window.anime(Object.assign({targets:targets},params)); }
+  function updateRange(slider){
+    const min=Number(slider.min||0), max=Number(slider.max||100), val=Number(slider.value||0);
+    const pct=max===min?0:Math.max(0,Math.min(100,(val-min)/(max-min)*100));
+    slider.style.setProperty('--range-progress',pct+'%');
+  }
+  const sliders=$$(`#autoVolumeSlider, #rainVolumeSlider, #musicVolumeSlider`);
+  sliders.forEach(slider=>{
+    updateRange(slider);
+    slider.addEventListener('input',()=>{
+      updateRange(slider);
+      const parent=slider.closest('.volume-pair, .music-volume-pop');
+      const valueId=slider.id==='autoVolumeSlider'?'autoVolValue':slider.id==='rainVolumeSlider'?'rainVolValue':'musicVolumeValue';
+      const label=$('#'+valueId);
+      if(parent){animate(parent,{scale:[1,1.035,1],duration:260,easing:'easeOutCubic'});}
+      if(label){animate(label,{scale:[1,1.18,1],opacity:[.65,1],duration:210,easing:'easeOutBack'});}
+      animate(slider,{filter:['brightness(1)','brightness(1.3)','brightness(1)'],duration:260,easing:'easeOutQuad'});
+    });
+    slider.addEventListener('pointerdown',()=>animate(slider,{scale:[1,1.04],duration:120,easing:'easeOutQuad'}));
+    slider.addEventListener('pointerup',()=>animate(slider,{scale:1,duration:160,easing:'easeOutQuad'}));
+  });
+
+  // One-time entrance choreography: top controls, title, then player.
+  if(!reduceMotion){
+    animate($$('.top .sound-control, .top > button, .top > select'),{opacity:[0,1],translateY:[-14,0],scale:[.96,1],duration:520,delay:window.anime.stagger(65,{start:100}),easing:'easeOutCubic'});
+    if(hero){animate($('.title',hero),{opacity:[0,1],translateY:[22,0],rotate:['-10deg','-6deg'],scale:[.9,1],duration:850,delay:180,easing:'easeOutElastic(1,.7)'});animate($('.sub',hero),{opacity:[0,1],translateY:[12,0],duration:560,delay:480,easing:'easeOutCubic'});}
+    if(card){card.style.opacity='0';animate(card,{opacity:[0,1],translateY:[24,0],scale:[.94,1],duration:650,delay:250,easing:'easeOutCubic'});}
+  }
+
+  // Subtle animated glass controls and title details.
+  $$('.sound-control').forEach((el, index)=>{
+    el.addEventListener('mouseenter',()=>{if(!reduceMotion) animate(el,{scale:1.025,borderColor:'rgba(255,255,255,.68)',backgroundColor:'rgba(12,14,16,.78)',duration:220,easing:'easeOutCubic'});});
+    el.addEventListener('mouseleave',()=>{if(!reduceMotion) animate(el,{scale:1,borderColor:'rgba(255,255,255,.24)',backgroundColor:'rgba(8,10,12,.58)',duration:260,easing:'easeOutCubic'});});
+    const label=$('.pill',el);
+    if(label) label.addEventListener('click',()=>{if(!reduceMotion) animate(label,{translateX:[0,2,0],duration:260,easing:'easeOutBack'});});
+  });
+  // Gentle ambient motion on title; pauses automatically for reduced-motion users.
+  if(hero && !reduceMotion){
+    const title=$('.title',hero);
+    if(title) animate(title,{translateY:[0,-3,0],duration:4200,direction:'alternate',loop:true,easing:'easeInOutSine'});
+  }
+  // Consistent hover / tap feedback for interactive controls.
+  const interactive=$$('button, .vehicle-select, .song-browser-trigger, .mode-switch button, .ctrl button');
+  interactive.forEach(el=>{
+    el.addEventListener('mouseenter',()=>{if(!reduceMotion) animate(el,{scale:1.035,duration:180,easing:'easeOutCubic'});});
+    el.addEventListener('mouseleave',()=>{if(!reduceMotion) animate(el,{scale:1,duration:220,easing:'easeOutCubic'});});
+    el.addEventListener('pointerdown',()=>{if(!reduceMotion) animate(el,{scale:.96,duration:90,easing:'easeOutQuad'});});
+    el.addEventListener('pointerup',()=>{if(!reduceMotion) animate(el,{scale:1.025,duration:190,easing:'easeOutBack'});});
+  });
+  $$('.volume-pair, .music-volume-pop').forEach(el=>{
+    el.addEventListener('mouseenter',()=>animate(el,{borderColor:'rgba(255,255,255,.72)',boxShadow:['0 0 0 rgba(255,255,255,0)','0 0 14px rgba(255,255,255,.10)'],duration:220,easing:'easeOutQuad'}));
+    el.addEventListener('mouseleave',()=>animate(el,{borderColor:'rgba(255,255,255,.24)',boxShadow:'0 0 0 rgba(255,255,255,0)',duration:260,easing:'easeOutQuad'}));
+  });
+
+  // Song visualizer: decorative animation only; actual audio playback stays in the existing player.
+  const bars=$$('#musicMotionBars i');
+  let visualizer=null;
+  function startVisualizer(){
+    if(!bars.length || reduceMotion || !hasAnime || visualizer) return;
+    visualizer=window.anime({targets:bars,scaleY:()=>window.anime.random(1,5),height:()=>window.anime.random(4,16),duration:()=>window.anime.random(240,520),delay:window.anime.stagger(35),direction:'alternate',loop:true,easing:'easeInOutSine'});
+    if(card)card.classList.add('is-playing');
+  }
+  function stopVisualizer(){if(visualizer){visualizer.pause();visualizer=null;}bars.forEach(b=>{b.style.height='4px';b.style.transform='scaleY(1)';});if(card)card.classList.remove('is-playing');}
+  const localAudio=$('#localAudio');
+  if(localAudio){localAudio.addEventListener('play',startVisualizer);localAudio.addEventListener('pause',stopVisualizer);localAudio.addEventListener('ended',stopVisualizer);}
+  // Poll YouTube's state when available, without interfering with its API or controls.
+  window.setInterval(()=>{
+    try{
+      if(window.ytReady && window.ytPlayer && typeof window.ytPlayer.getPlayerState==='function'){
+        const playing=window.ytPlayer.getPlayerState()===1;
+        if(playing)startVisualizer();else if(!localAudio || localAudio.paused)stopVisualizer();
+      }
+    }catch(e){}
+  },900);
+
+  // Smooth title hide/show and background-mode transitions, while preserving existing handlers.
+  const hideBtn=$('#hideTitle'), showBtn=$('#showTitle');
+  if(hideBtn)hideBtn.addEventListener('click',()=>{if(hero)animate(hero,{opacity:[1,0],translateY:[0,-18],duration:300,easing:'easeInCubic'});});
+  if(showBtn)showBtn.addEventListener('click',()=>{if(hero){hero.style.opacity='';animate(hero,{opacity:[0,1],translateY:[-14,0],duration:420,easing:'easeOutCubic'});}});
+  const vehicle=$('#vehicleSelect');
+  if(vehicle)vehicle.addEventListener('change',()=>{animate(vehicle,{rotate:[0,-3,3,0],scale:[1,1.05,1],duration:420,easing:'easeOutCubic'});if(card)animate(card,{translateY:[0,-5,0],duration:380,easing:'easeOutCubic'});});
+})();
+</script>
+
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -702,6 +936,52 @@ if ('serviceWorker' in navigator) {
       .catch(err => console.error('Service worker registration failed:', err));
   });
 }
+</script>
+
+
+<script id="animejs-deluxe-interactions">
+(function(){
+ const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const A=window.anime; if(!A||reduce)return;
+ const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+ const run=(targets,params)=>A(Object.assign({targets},params));
+ // Reveal meaningful page sections with a short, coordinated timeline.
+ const timeline=A.timeline({easing:'easeOutCubic'});
+ timeline.add({targets:'.hero .title',opacity:[0,1],translateY:[28,0],scale:[.88,1],rotateX:[-14,0],duration:900,delay:100})
+ .add({targets:'.hero .sub',opacity:[0,1],translateY:[16,0],duration:500},'-=560')
+ .add({targets:'.hero .title-tools button',opacity:[0,1],translateY:[10,0],scale:[.9,1],duration:420},'-=300');
+ // Make sound controls react as a single polished component; preserve the existing audio handlers.
+ $$('.sound-control').forEach((box,i)=>{
+   const toggle=$('.pill',box), slider=$('input[type=range]',box), value=$('span',box);
+   box.addEventListener('pointerenter',()=>run(box,{scale:1.025,translateY:-1,boxShadow:'0 0 0 1px rgba(255,255,255,.08),0 0 20px rgba(255,255,255,.10)',duration:240,easing:'easeOutCubic'}));
+   box.addEventListener('pointerleave',()=>run(box,{scale:1,translateY:0,boxShadow:'0 5px 18px rgba(0,0,0,.14)',duration:300,easing:'easeOutCubic'}));
+   if(toggle)toggle.addEventListener('click',()=>{
+     box.classList.toggle('is-sweeping');setTimeout(()=>box.classList.remove('is-sweeping'),900);
+     run(toggle,{scale:[1,.92,1.04,1],duration:440,easing:'easeOutElastic(1,.65)'});
+     if(toggle.classList.contains('on')||toggle.classList.contains('active')||!toggle.classList.contains('off'))box.classList.add('is-on');else box.classList.remove('is-on');
+   });
+   if(slider){slider.addEventListener('input',()=>{
+      run(slider,{filter:['brightness(1)','brightness(1.8)','brightness(1.15)'],duration:300,easing:'easeOutQuad'});
+      if(value)run(value,{scale:[1,1.28,1],translateY:[0,-2,0],duration:360,easing:'easeOutBack'});
+      box.classList.add('is-sweeping');clearTimeout(box._sweepTimer);box._sweepTimer=setTimeout(()=>box.classList.remove('is-sweeping'),500);
+   });}
+ });
+ // Every clickable control gets responsive tap feedback, not only hover animation.
+ $$('button,.vehicle-select,.song-browser-trigger,.mode-switch button,.ctrl button').forEach(el=>{
+   el.addEventListener('pointerdown',()=>run(el,{scale:.94,duration:100,easing:'easeOutQuad'}));
+   el.addEventListener('pointerup',()=>run(el,{scale:[.94,1.06,1],duration:360,easing:'easeOutElastic(1,.6)'}));
+   el.addEventListener('pointercancel',()=>run(el,{scale:1,duration:180,easing:'easeOutCubic'}));
+ });
+ // A soft animated highlight travels across the title periodically.
+ const title=$('.hero .title,.title');
+ if(title){title.style.backgroundImage='linear-gradient(105deg,currentColor 0%,currentColor 38%,rgba(255,255,255,.98) 50%,currentColor 62%,currentColor 100%)';title.style.backgroundSize='240% 100%';title.style.backgroundClip='text';title.style.webkitBackgroundClip='text';title.style.webkitTextFillColor='transparent';run(title,{backgroundPosition:['100% 0%','-100% 0%'],duration:5200,easing:'linear',loop:true});}
+ // Float small UI ornaments gently; do not animate the entire page continuously.
+ $$('.round,.vehicle-select').forEach((el,i)=>run(el,{translateY:[0,-2,0],duration:2600+i*250,delay:i*150,easing:'easeInOutSine',loop:true}));
+ // Animate music volume pop when it opens, without changing its visibility/audio logic.
+ const pop=$('#musicVolumePop');if(pop){new MutationObserver(()=>{if(pop.classList.contains('open')||getComputedStyle(pop).display!=='none')run(pop,{opacity:[0,1],translateY:[-8,0],scale:[.96,1],duration:300,easing:'easeOutCubic'});}).observe(pop,{attributes:true,attributeFilter:['class','style']});}
+ // Vehicle change gets a cinematic but brief transition on the player card.
+ const vehicle=$('#vehicleSelect'),card=$('#musicMiniCard');if(vehicle)vehicle.addEventListener('change',()=>{if(card)run(card,{filter:['brightness(1)','brightness(1.35)','brightness(1)'],scale:[1,.985,1],duration:520,easing:'easeInOutSine'});});
+})();
 </script>
 
 </body>
