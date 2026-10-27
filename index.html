@@ -97,7 +97,7 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 /* player */
 
 .player.yt-mini-card{position:fixed;left:auto;right:14px;top:auto;bottom:14px;transform:none;width:min(250px,calc(100vw - 24px));height:auto;border-radius:20px;display:flex;flex-direction:column;gap:0;padding:7px;background:linear-gradient(135deg,rgba(15,20,26,.92),rgba(18,25,34,.88));border:1px solid rgba(255,255,255,.34);backdrop-filter:blur(22px) saturate(1.35);-webkit-backdrop-filter:blur(22px) saturate(1.35);box-shadow:0 18px 48px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.18);z-index:7;overflow:hidden}
-.yt-mini-head{height:20px;display:flex;align-items:center;justify-content:space-between;padding:0 2px 5px;cursor:grab;touch-action:none;user-select:none;color:#fff;font:700 10px Poppins,system-ui,sans-serif;letter-spacing:.25px}
+.browser-modes{padding:0 10px 8px!important;}.mode-switch{display:flex;gap:4px;padding:3px 0 6px}.mode-switch button{flex:1;min-width:0;border:1px solid #ffffff35;border-radius:9px;padding:5px 4px;background:#ffffff0c;color:#fff;font:600 9px system-ui;cursor:pointer}.mode-switch button.active{background:#ff1744;color:#fff;border-color:#ff1744}.local-pick{font:9px system-ui;color:#fff;display:none;margin:0 0 5px}.local-pick input{width:100%;font-size:9px;color:#ddd}.local-pick.show{display:block}.yt-mini-head{height:20px;display:flex;align-items:center;justify-content:space-between;padding:0 2px 5px;cursor:grab;touch-action:none;user-select:none;color:#fff;font:700 10px Poppins,system-ui,sans-serif;letter-spacing:.25px}
 .yt-brand{display:flex;align-items:center;gap:6px}.yt-brand svg{width:17px;height:17px;fill:#ff1744}.yt-live-dot{width:6px;height:6px;border-radius:50%;background:#ff304f;box-shadow:0 0 9px #ff304f}
 #youtubePlayer{width:100%;aspect-ratio:16/9;height:auto;min-height:0;border-radius:11px;overflow:hidden;background:#000;box-shadow:0 4px 14px #0007}
 #youtubePlayer iframe{width:100%;height:100%;display:block}
@@ -213,14 +213,30 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 
 
 /* Compact searchable song picker */
-.song-browser-trigger{position:fixed;z-index:8;left:calc(50% + min(240px,46vw) - 104px);bottom:calc(11vh + 98px);height:34px;padding:0 13px;border:1px solid rgba(255,255,255,.4);border-radius:999px;background:rgba(12,12,12,.72);color:#fff;font:600 11px Poppins,system-ui,sans-serif;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);cursor:pointer;box-shadow:0 5px 18px #0005}
-.song-browser{position:fixed;z-index:12;right:max(4vw,calc(50% - 240px));bottom:calc(11vh + 140px);width:min(340px,92vw);max-height:min(46vh,390px);display:none;flex-direction:column;overflow:hidden;border:1px solid rgba(255,255,255,.3);border-radius:18px;background:rgba(14,14,17,.9);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);box-shadow:0 18px 50px #0009}
+.song-browser-trigger{position:fixed;z-index:13;right:clamp(10px,4vw,60px);left:auto;bottom:clamp(118px,16vh,145px);height:32px;padding:0 12px;border:1px solid rgba(255,255,255,.4);border-radius:999px;background:rgba(12,12,12,.78);color:#fff;font:600 11px Poppins,system-ui,sans-serif;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);cursor:pointer;box-shadow:0 5px 18px #0005;max-width:calc(100vw - 20px)}
+.song-browser{position:fixed;z-index:14;right:clamp(10px,4vw,60px);left:auto;bottom:clamp(158px,21vh,190px);width:min(340px,calc(100vw - 20px));max-height:min(48dvh,390px);display:none;flex-direction:column;overflow:hidden;border:1px solid rgba(255,255,255,.3);border-radius:18px;background:rgba(14,14,17,.9);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);box-shadow:0 18px 50px #0009}
 .song-browser.open{display:flex}.song-browser-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 14px 9px}.song-browser-title{font-size:13px;font-weight:700}.song-browser-count{font-size:10px;color:#ddd;margin-top:2px}.song-browser-close{border:0;border-radius:50%;width:28px;height:28px;background:#ffffff20;color:#fff;font-size:19px;cursor:pointer}
 .song-search{margin:0 12px 10px;width:calc(100% - 24px);height:36px;padding:0 12px;border:1px solid #ffffff2c;border-radius:10px;background:#ffffff12;color:#fff;outline:none;font:500 12px Poppins,system-ui,sans-serif}.song-search::placeholder{color:#ddd}
 .song-list{overflow-y:auto;overscroll-behavior:contain;padding:0 8px 9px;scrollbar-width:thin;scrollbar-color:#ffffff55 transparent}.song-option{display:flex;align-items:center;gap:10px;width:100%;padding:10px;border:0;border-radius:10px;background:transparent;color:#fff;text-align:left;cursor:pointer;font:500 12px Poppins,system-ui,sans-serif}.song-option:hover,.song-option:focus-visible{background:#ffffff16;outline:none}.song-option.current{background:rgba(232,17,45,.25)}.song-num{flex:none;width:24px;height:24px;display:grid;place-items:center;border-radius:7px;background:#ffffff16;font-size:10px;color:#eee}.song-option.current .song-num{background:#e8112d}.song-name{min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.song-status{flex:none;font-size:10px;color:#ffb5bf}.song-empty{padding:18px 12px;text-align:center;color:#ddd;font-size:12px}
-@media(max-width:600px){.song-browser-trigger{left:auto;right:10px;bottom:calc(max(env(safe-area-inset-bottom),10px) + 126px)}.song-browser{right:10px;bottom:calc(max(env(safe-area-inset-bottom),10px) + 166px);max-height:44vh;width:min(340px,calc(100vw - 20px))}}
-@media(max-height:500px) and (orientation:landscape){.song-browser-trigger{bottom:78px}.song-browser{bottom:118px;max-height:52vh}}
+@media(max-width:600px){.song-browser-trigger{right:10px;bottom:calc(max(env(safe-area-inset-bottom),10px) + 126px)}.song-browser{right:10px;bottom:calc(max(env(safe-area-inset-bottom),10px) + 166px);max-height:44dvh;width:min(340px,calc(100vw - 20px))}}
+@media(max-height:500px) and (orientation:landscape){.song-browser-trigger{bottom:82px}.song-browser{bottom:120px;max-height:52dvh}}
 
+</style>
+
+
+<style>
+/* Compact screenshot-style music player */
+.player.yt-mini-card{z-index:9990;width:min(314px,calc(100vw - 24px));right:16px;bottom:16px;padding:8px 9px;border-radius:22px;background:rgba(15,20,26,.94);border:1px solid rgba(255,255,255,.34);}
+.yt-mini-head{height:24px;padding:0 3px 6px;font-size:13px}
+.yt-brand{gap:7px}.yt-brand svg{width:21px;height:21px}
+.mini-mode-switch{display:flex;gap:5px;padding:2px 0 8px}
+.mini-mode-switch button{flex:1;min-width:0;border:1px solid #ffffff35;border-radius:12px;padding:8px 5px;background:#ffffff0c;color:#fff;font:700 11px system-ui;cursor:pointer}
+.mini-mode-switch button.active{background:#ff1744;color:#fff;border-color:#ff1744}
+.yt-mini-controls{gap:7px;padding:6px 2px 2px}.np{font-size:11px;letter-spacing:.4px}.song{font-size:16px;line-height:1.35}.time{font-size:12px}
+.ctrl button{width:43px;height:43px}.ctrl button.main{width:51px;height:51px}
+#youtubePlayer{max-height:0;overflow:hidden}
+.song-browser-trigger{max-width:calc(100vw - 20px)}
+@media(max-width:600px){.player.yt-mini-card{width:min(314px,calc(100vw - 20px));right:10px;bottom:10px}.ctrl button{width:40px;height:40px}.ctrl button.main{width:47px;height:47px}}
 </style>
 
 </head>
@@ -267,7 +283,13 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 
 <div class="player yt-mini-card" id="musicMiniCard">
   <div class="yt-mini-head"><span class="yt-brand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.3 3.6-6.3 3.6Z"/></svg> YouTube Music</span><span class="yt-live-dot"></span></div>
+  
+  <div class="mini-mode-switch" role="group" aria-label="Music source">
+    <button type="button" id="miniLocalMode" class="active">♫ Local</button>
+    <button type="button" id="miniYouTubeMode">▶ YouTube</button>
+  </div>
   <div id="youtubePlayer" aria-label="YouTube music player"></div>
+  <audio id="localAudio" preload="metadata" style="display:none"></audio>
   <div class="yt-mini-controls">
     <div class="yt-mini-meta"><div class="np">अभी बज रहा है</div><div class="song" id="song"><span id="songT">—</span></div><div class="time" id="time">Play दबाएँ</div></div>
     <div class="ctrl">
@@ -280,7 +302,7 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 
 <button class="song-browser-trigger" id="songBrowserToggle" type="button" aria-expanded="false" aria-controls="songBrowser">♫ सभी गाने <span id="songBrowserButtonCount">…</span></button>
 <section class="song-browser" id="songBrowser" aria-label="गानों की सूची">
-  <div class="song-browser-head"><div><div class="song-browser-title">अपना गाना चुनें</div><div class="song-browser-count" id="songBrowserCount">गाने लोड हो रहे हैं…</div></div><button class="song-browser-close" id="songBrowserClose" type="button" aria-label="बंद करें">×</button></div>
+  <div class="song-browser-head"><div><div class="song-browser-title">अपना गाना चुनें</div><div class="song-browser-count" id="songBrowserCount">गाने लोड हो रहे हैं…</div></div><button class="song-browser-close" id="songBrowserClose" type="button" aria-label="बंद करें">×</button></div><div class="mode-switch browser-modes" role="group" aria-label="गाने का स्रोत"><button type="button" id="localModeList" class="active">♫ Local गाने</button><button type="button" id="youtubeModeList">▶ YouTube गाने</button></div>
   <input class="song-search" id="songSearch" type="search" placeholder="गाना खोजें…" autocomplete="off" aria-label="गाना खोजें">
   <div class="song-list" id="songList" role="listbox" aria-label="सभी गाने"></div>
 </section>
@@ -313,7 +335,7 @@ autoEngine.loop = true; autoEngine.preload = "auto";
 const rainSound = new Audio("sounds/rain.mp3");
 rainSound.loop = true; rainSound.preload = "auto";
 const bg = $('bg'), rainBg = $('rainBg');
-let idx = 0, started = false, tracks = PLAYLIST.slice(), ytPlayer = null, ytReady = false, ytLoading = false;
+let idx = 0, started = false, tracks = [], ytPlayer = null, ytReady = false, ytLoading = false, playMode='local', localTracks=[];
 const RESUME_KEY = 'musicalAutoSeva.hindiPlaylist.v1';
 const fmt = s => !Number.isFinite(s) ? "0:00" : Math.floor(s/60) + ":" + String(Math.floor(s%60)).padStart(2,"0");
 const toast = (m) => { const t=$('toast'); t.textContent=m; t.classList.add('show'); clearTimeout(toast.t); toast.t=setTimeout(()=>t.classList.remove('show'),3200); };
@@ -345,16 +367,16 @@ function renderSongList(){
   const query=($('songSearch').value||'').trim().toLocaleLowerCase();
   const visible=tracks.map((track,originalIndex)=>({track,originalIndex})).filter(x=>x.track.title.toLocaleLowerCase().includes(query));
   $('songBrowserButtonCount').textContent=tracks.length?`(${tracks.length})`:'';
-  $('songBrowserCount').textContent=`${tracks.length} हिंदी गानों के नाम • YouTube player में playback`;
-  if(!visible.length){list.innerHTML='<div class="song-empty">कोई गाना नहीं मिला। दूसरा नाम खोजें।</div>';return;}
+  $('songBrowserCount').textContent=playMode==='local'?`${tracks.length} local गाने • सीधे songs/ folder से`:`${tracks.length} गाने • YouTube playlist`;
+  if(!visible.length){list.innerHTML='<div class="song-empty">'+(playMode==='local'?'Local गाने लोड हो रहे हैं…':'कोई गाना नहीं मिला।')+'</div>';return;}
   list.innerHTML='';
   visible.forEach(({track,originalIndex})=>{
     const b=document.createElement('button'); b.type='button'; b.className='song-option'+(originalIndex===idx?' current':'');
     b.setAttribute('role','option'); b.setAttribute('aria-selected',String(originalIndex===idx));
     const n=document.createElement('span'); n.className='song-num'; n.textContent=String(originalIndex+1);
     const name=document.createElement('span'); name.className='song-name'; name.textContent=track.title;
-    const status=document.createElement('span'); status.className='song-status'; status.textContent='▶';
-    b.append(n,name,status); b.addEventListener('click',()=>{idx=originalIndex;setTitle(track.title);renderSongList();try{localStorage.setItem(RESUME_KEY,JSON.stringify({idx,title:track.title}));}catch(e){} ensurePlayer(true); toast('Player इसी page पर है — playlist के controls से गाना चुनें।');}); list.appendChild(b);
+    const status=document.createElement('span'); status.className='song-status'; status.textContent=originalIndex===idx?'▶':'♪';
+    b.append(n,name,status); b.addEventListener('click',()=>{load(originalIndex,true);}); list.appendChild(b);
   });
 }
 function setSongBrowser(open){$('songBrowser').classList.toggle('open',open);$('songBrowserToggle').setAttribute('aria-expanded',String(open));if(open){renderSongList();$('songSearch').focus({preventScroll:true});}}
@@ -362,14 +384,76 @@ $('songBrowserToggle').addEventListener('click',()=>setSongBrowser(!$('songBrows
 $('songBrowserClose').addEventListener('click',()=>setSongBrowser(false)); $('songSearch').addEventListener('input',renderSongList);
 document.addEventListener('keydown',e=>{if(e.key==='Escape')setSongBrowser(false)});
 document.addEventListener('click',e=>{if($('songBrowser').classList.contains('open')&&!e.target.closest('#songBrowser')&&!e.target.closest('#songBrowserToggle'))setSongBrowser(false)});
-function load(i,autoplay){idx=(i+tracks.length)%tracks.length;const track=tracks[idx];setTitle(track.title);renderSongList();try{localStorage.setItem(RESUME_KEY,JSON.stringify({idx,title:track.title}));}catch(e){} if(autoplay){ensurePlayer(true);toast('गाना इसी page पर चलेगा। Playlist controls से actual track चुनें।')}else toast('चुना गया: '+track.title+' — Play दबाएँ।');}
-function play(){ensurePlayer(true);}
-function toggle(){if(!ytReady){ensurePlayer(true);return;} const state=ytPlayer.getPlayerState(); if(state===YT.PlayerState.PLAYING){ytPlayer.pauseVideo();$('playIc').innerHTML=PLAY;}else{ytPlayer.playVideo();$('playIc').innerHTML=PAUSE;}}
+function load(i,autoplay){if(!tracks.length){toast('गाने अभी लोड हो रहे हैं।');return;}idx=(i+tracks.length)%tracks.length;const track=tracks[idx];setTitle(track.title);renderSongList();try{localStorage.setItem(RESUME_KEY,JSON.stringify({idx,title:track.title,mode:playMode}));}catch(e){} if(autoplay){if(playMode==='local')playLocal(idx);else {ensurePlayer(true);toast('YouTube playlist में exact song चुनने के लिए player के अंदर playlist controls इस्तेमाल करें।');}}else toast('चुना गया: '+track.title+' — Play दबाएँ।');}
+function play(){if(playMode==='local')playLocal(idx);else ensurePlayer(true);}
+function toggle(){if(playMode==='local'){const a=$('localAudio');if(!a.src){playLocal(idx);return;}if(a.paused){a.play().catch(()=>toast('यह MP3 path नहीं चला। songs.json और songs/ folder जाँचें।'));}else a.pause();return;} if(!ytReady){ensurePlayer(true);return;} const state=ytPlayer.getPlayerState(); if(state===YT.PlayerState.PLAYING){ytPlayer.pauseVideo();$('playIc').innerHTML=PLAY;}else{ytPlayer.playVideo();$('playIc').innerHTML=PAUSE;}}
+function playLocal(i){if(!localTracks.length){toast('Local tracks नहीं मिले। पहले ♫ सभी गाने खोलकर Local Songs चुनें; songs.json में tracks होने चाहिए।');return;}idx=(i+localTracks.length)%localTracks.length;const t=localTracks[idx];setTitle(t.title);const a=$('localAudio');if(a.src!==t.src){a.src=t.src;a.load();}const p=a.play();if(p&&p.then)p.then(()=>{$('playIc').innerHTML=PAUSE;$('time').textContent='Local गाना चल रहा है';}).catch(()=>toast('गाना नहीं चला — songs.json में src path जाँचें।'));renderSongList();}
+$('localAudio').addEventListener('ended',()=>playLocal((idx+1)%localTracks.length));
+$('localAudio').addEventListener('pause',()=>{if(playMode==='local')$('playIc').innerHTML=PLAY;});
+$('localAudio').addEventListener('play',()=>{if(playMode==='local')$('playIc').innerHTML=PAUSE;});
+function setMode(mode){
+  playMode=mode;
+  const a=$('localAudio');
+  if(mode==='local'){
+    if(ytReady&&ytPlayer)try{ytPlayer.pauseVideo();}catch(e){}
+    $('youtubePlayer').style.display='none';
+    $('localModeList').classList.add('active');$('youtubeModeList').classList.remove('active');
+    tracks=localTracks;idx=Math.min(idx,Math.max(0,tracks.length-1));
+    setTitle(tracks[idx]?.title||'Local गाने लोड हो रहे हैं…');$('time').textContent='Local songs';
+    if(localTracks.length && !a.src) playLocal(idx);
+  }else{
+    a.pause();$('youtubePlayer').style.display='block';
+    $('youtubeModeList').classList.add('active');$('localModeList').classList.remove('active');
+    tracks=PLAYLIST.slice();idx=Math.min(idx,Math.max(0,tracks.length-1));
+    setTitle(tracks[idx]?.title||'YouTube playlist');$('time').textContent='YouTube mode';
+  }
+  renderSongList();
+  if(typeof syncMiniMode==='function')syncMiniMode();
+}
+$('localModeList').addEventListener('click',()=>setMode('local'));$('youtubeModeList').addEventListener('click',()=>setMode('youtube'));
+function syncMiniMode(){const local=playMode==='local';$('miniLocalMode').classList.toggle('active',local);$('miniYouTubeMode').classList.toggle('active',!local);}
+$('miniLocalMode').addEventListener('click',()=>{setMode('local');syncMiniMode();});
+$('miniYouTubeMode').addEventListener('click',()=>{setMode('youtube');syncMiniMode();});
+
+async function loadHostedSongs(){
+  try{
+    const r=await fetch('./songs.json',{cache:'force-cache'});
+    if(!r.ok)throw new Error('songs.json HTTP '+r.status);
+    const data=await r.json();
+    if(!Array.isArray(data))throw new Error('songs.json must be an array');
+    localTracks=data.map(x=>{
+      if(typeof x==='string'){
+        const raw=x.replace(/^\.\//,'');
+        const src=raw.includes('/')?raw:('songs/'+raw);
+        const file=raw.split('/').pop();
+        return {title:decodeURIComponent(file.replace(/\.[^.]+$/,'')),src:new URL(src,document.baseURI).href};
+      }
+      if(x&&typeof x.src==='string'){
+        const raw=x.src.replace(/^\.\//,'');
+        return {title:(typeof x.title==='string'&&x.title.trim())?x.title:decodeURIComponent(raw.split('/').pop().replace(/\.[^.]+$/,'')),src:new URL(raw,document.baseURI).href};
+      }
+      return null;
+    }).filter(Boolean);
+    if(!localTracks.length)throw new Error('No local tracks');
+    tracks=localTracks;idx=0;playMode='local';setTitle(localTracks[0].title);
+    $('time').textContent=`${localTracks.length} local गाने तैयार`;
+    renderSongList();
+    // Request only the first audio file; never wait for all 58 files to download.
+    const a=$('localAudio');a.preload='auto';a.src=localTracks[0].src;a.load();
+    const attempt=a.play();
+    if(attempt&&attempt.then)attempt.then(()=>{$('playIc').innerHTML=PAUSE;$('time').textContent='Local गाना चल रहा है';}).catch(()=>{$('playIc').innerHTML=PLAY;$('time').textContent='Play दबाएँ';});
+  }catch(e){
+    console.error(e);localTracks=[];tracks=[];renderSongList();setTitle('Local गाने उपलब्ध नहीं');
+    $('time').textContent=location.protocol==='file:'?'START-MUSICAL-AUTO-SEVA.bat चलाएँ':'songs.json नहीं मिला';
+    toast(location.protocol==='file:'?'Local music के लिए START-MUSICAL-AUTO-SEVA.bat चलाएँ; file:// से songs.json नहीं पढ़ा जा सकता।':'songs.json या songs/ folder server पर नहीं मिला।');
+  }
+}
 $('play').onclick=toggle;
-$('next').onclick=()=>{if(ytReady)ytPlayer.nextVideo();else ensurePlayer(true);};
-$('prev').onclick=()=>{if(ytReady)ytPlayer.previousVideo();else ensurePlayer(true);};
-$('bar').onclick=()=>{if(ytReady)toast('गाना आगे करने के लिए YouTube player की timeline इस्तेमाल करें।');else ensurePlayer(true);};
-$('fill').style.width='0%';$('time').textContent='Play दबाएँ';
+$('next').onclick=()=>{if(playMode==='local')playLocal((idx+1)%Math.max(1,localTracks.length));else if(ytReady)ytPlayer.nextVideo();else ensurePlayer(true);};
+$('prev').onclick=()=>{if(playMode==='local')playLocal((idx-1+Math.max(1,localTracks.length))%Math.max(1,localTracks.length));else if(ytReady)ytPlayer.previousVideo();else ensurePlayer(true);};
+$('time').textContent='Local songs लोड हो रहे हैं…';
+renderSongList();setTitle('Local songs लोड हो रहे हैं…');loadHostedSongs();
+
 // Drag the compact player by its header; keep it inside the visible viewport.
 (function makePlayerDraggable(){
   const card=$('musicMiniCard'), handle=card.querySelector('.yt-mini-head');
@@ -391,7 +475,7 @@ $('fill').style.width='0%';$('time').textContent='Play दबाएँ';
   handle.addEventListener('pointerup',stop); handle.addEventListener('pointercancel',stop);
   window.addEventListener('resize',()=>{const r=card.getBoundingClientRect();card.style.left=Math.max(4,Math.min(window.innerWidth-r.width-4,r.left))+'px';card.style.top=Math.max(4,Math.min(window.innerHeight-r.height-4,r.top))+'px';card.style.right='auto';card.style.bottom='auto';card.style.transform='none';});
 })();
-renderSongList(); setTitle(tracks[0].title);
+$('youtubePlayer').style.display='none'; $('localModeList').classList.add('active'); $('youtubeModeList').classList.remove('active');
 
 /* top buttons */
 
@@ -523,6 +607,17 @@ $('showTitle').addEventListener('click', ()=>{
 
 
 
+</script>
+
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => console.log('Musical Auto Seva service worker ready', reg.scope))
+      .catch(err => console.error('Service worker registration failed:', err));
+  });
+}
 </script>
 
 </body>
