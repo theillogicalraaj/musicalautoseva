@@ -36,9 +36,8 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 
 .volume-pair{height:30px;display:flex;align-items:center;gap:3px;padding:2px 5px;border:1px solid rgba(255,255,255,.24);border-radius:999px;background:rgba(0,0,0,.48);color:#fff;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);font:600 10px system-ui,sans-serif}
 
-.volume-pair button{width:23px;height:23px;border:0;border-radius:50%;background:rgba(255,255,255,.16);color:#fff;font-size:17px;line-height:1;cursor:pointer;touch-action:manipulation}
-
-.volume-pair span{min-width:28px;text-align:center;font-variant-numeric:tabular-nums}
+.volume-pair input[type=range]{width:78px;accent-color:#ff2145;cursor:pointer}.volume-pair span{min-width:27px;text-align:center;font-variant-numeric:tabular-nums;font-size:10px}
+.music-volume-pop{position:fixed;right:104px;top:108px;z-index:1000;display:none;align-items:center;gap:8px;padding:10px 13px;border:1px solid #555;border-radius:16px;background:rgba(12,15,18,.96);backdrop-filter:blur(14px)}.music-volume-pop.open{display:flex}.music-volume-pop input{width:125px;accent-color:#ff2145}.vehicle-select{max-width:145px;height:42px;border:1px solid rgba(255,255,255,.25);border-radius:24px;background:rgba(0,0,0,.55);color:#fff;padding:0 10px;font-weight:700;cursor:pointer}.vehicle-select option{background:#171717;color:white}
 
 @media(max-width:640px){.top{left:8px;right:8px;top:max(env(safe-area-inset-top),8px);gap:5px}.sound-control{gap:3px}.volume-pair{height:27px;padding:2px 4px;gap:2px}.volume-pair button{width:21px;height:21px}.top .pill{height:34px;padding:0 9px;font-size:10px}.volume-pair span{min-width:25px;font-size:9px}}
 
@@ -271,15 +270,14 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 
 <div class="top">
 
-  <div class="sound-control"><button class="pill off" id="amb" title="ऑटो की आवाज़ चालू/बंद"><i></i>ऑटो की आवाज़</button><div class="volume-pair" aria-label="ऑटो की आवाज़ का वॉल्यूम"><button type="button" id="autoVolDown" aria-label="ऑटो की आवाज़ कम करें">−</button><span id="autoVolValue">70%</span><button type="button" id="autoVolUp" aria-label="ऑटो की आवाज़ बढ़ाएँ">+</button></div></div><div class="sound-control"><button class="pill off" id="rainToggle" title="बारिश चालू/बंद"><i></i>बारिश</button><div class="volume-pair" aria-label="बारिश की आवाज़ का वॉल्यूम"><button type="button" id="rainVolDown" aria-label="बारिश की आवाज़ कम करें">−</button><span id="rainVolValue">60%</span><button type="button" id="rainVolUp" aria-label="बारिश की आवाज़ बढ़ाएँ">+</button></div></div>
+  <div class="sound-control"><button class="pill off" id="amb" title="ऑटो की आवाज़ चालू/बंद"><i></i>ऑटो की आवाज़</button><div class="volume-pair" aria-label="ऑटो की आवाज़ का वॉल्यूम"><input type="range" id="autoVolumeSlider" min="0" max="100" value="70" aria-label="ऑटो की आवाज़ वॉल्यूम"><span id="autoVolValue">70%</span></div></div><div class="sound-control"><button class="pill off" id="rainToggle" title="बारिश चालू/बंद"><i></i>बारिश</button><div class="volume-pair" aria-label="बारिश की आवाज़ का वॉल्यूम"><input type="range" id="rainVolumeSlider" min="0" max="100" value="60" aria-label="बारिश वॉल्यूम"><span id="rainVolValue">60%</span></div></div>
 
   <button class="round" id="mute" title="Mute / Unmute"><svg viewBox="0 0 24 24" id="muteIc"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4z"/></svg></button>
 
-  <button class="round skull" id="skull" title="Start mooning"><svg viewBox="0 0 24 24"><path d="M12 2a9 9 0 0 0-9 9c0 2.8 1.3 5.2 3.3 6.8V21h3v-2h1.4v2h2.6v-2h1.4v2h3v-3.2A9 9 0 0 0 12 2zM8.5 14a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg></button>
+  <select id="vehicleSelect" class="vehicle-select" aria-label="वाहन चुनें" title="वाहन/प्लेलिस्ट बदलें"><option value="auto">🛺 ऑटो रिक्शा</option><option value="bus">🚌 बस (जल्द)</option></select>
 
 </div>
-
-
+<div class="music-volume-pop" id="musicVolumePop"><span>♫ Music</span><input id="musicVolumeSlider" type="range" min="0" max="100" value="80" aria-label="Music volume"><span id="musicVolumeValue">80%</span></div>
 
 <div class="hero" id="hero">
 
@@ -604,10 +602,8 @@ function setRainVolume(value){
 }
 
 // Wire up both sets of volume controls (10% per tap).
-$('autoVolDown').addEventListener('click', () => setAutoVolume(autoVolume - 0.1));
-$('autoVolUp').addEventListener('click', () => setAutoVolume(autoVolume + 0.1));
-$('rainVolDown').addEventListener('click', () => setRainVolume(rainVolume - 0.1));
-$('rainVolUp').addEventListener('click', () => setRainVolume(rainVolume + 0.1));
+$('autoVolumeSlider').addEventListener('input', e => setAutoVolume(Number(e.target.value)/100));
+$('rainVolumeSlider').addEventListener('input', e => setRainVolume(Number(e.target.value)/100));
 
 // Apply initial levels immediately so both sounds start at their displayed volume.
 setAutoVolume(autoVolume);
@@ -655,9 +651,13 @@ $('rainToggle').onclick = async ()=>{
     console.error("Rain sound failed:", error);
   }
 };
-$('mute').onclick = ()=>{ toast('YouTube का volume YouTube player में control करें।'); };
-
-$('skull').onclick = ()=>{ const on = bg.classList.toggle('ghost'); $('skull').title = on ? "Stop mooning" : "Start mooning"; };
+let musicVolume=0.8;
+function applyMusicVolume(){const v=Math.round(musicVolume*100);$('musicVolumeSlider').value=v;$('musicVolumeValue').textContent=v+'%';const a=$('localAudio');a.volume=musicVolume;if(ytReady&&ytPlayer)try{ytPlayer.setVolume(v);ytPlayer.unMute();if(v===0)ytPlayer.mute();}catch(e){}}
+$('mute').title='Music volume';$('mute').onclick=()=>{$('musicVolumePop').classList.toggle('open');applyMusicVolume();};
+$('musicVolumeSlider').addEventListener('input',e=>{musicVolume=Number(e.target.value)/100;applyMusicVolume();});
+document.addEventListener('click',e=>{if(!$('musicVolumePop').contains(e.target)&&!$('mute').contains(e.target))$('musicVolumePop').classList.remove('open');});
+applyMusicVolume();
+$('vehicleSelect').addEventListener('change',e=>{if(e.target.value==='bus'){e.target.value='auto';toast('बस playlist जोड़ने के लिए bus.mp4 और बस के गाने उपलब्ध होने पर इसे चालू करेंगे।');return;}bg.src='auto.mp4';bg.load();bg.play().catch(()=>{});toast('ऑटो रिक्शा चुना गया');});
 
 
 
