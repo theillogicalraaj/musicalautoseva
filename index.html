@@ -352,9 +352,17 @@ const YT_PLAYLIST_ID = 'PLNkswAYRbnxX9p9cWIinXkiKVPZfjRZ8b';
 function ensurePlayer(autoplay=true){
   const card=$('musicMiniCard');
   card.classList.add('youtube-mode');
-  $('youtubePlayer').style.display='block';
+  const host=$('youtubePlayer');
+  host.style.display='block';
+  if(location.protocol==='file:'){
+    toast('YouTube चलाने के लिए वेबसाइट localhost या HTTPS hosting पर खोलें।');
+    return;
+  }
   if(ytReady && ytPlayer){
-    try { ytPlayer.loadPlaylist({list:YT_PLAYLIST_ID,listType:'playlist',index:0}); if(autoplay) ytPlayer.playVideo(); } catch(e) { console.warn(e); }
+    try {
+      ytPlayer.loadPlaylist({list:YT_PLAYLIST_ID,listType:'playlist',index:0});
+      if(autoplay) setTimeout(()=>{try{ytPlayer.playVideo();}catch(e){}},700);
+    } catch(e) { console.warn('YouTube playlist load failed:',e); }
     return;
   }
   if(ytLoading) return;
@@ -362,29 +370,35 @@ function ensurePlayer(autoplay=true){
   window.onYouTubeIframeAPIReady = function(){
     ytPlayer = new YT.Player('youtubePlayer', {
       width:'320', height:'180',
-      playerVars: { autoplay:0, controls:1, playsinline:1, rel:0, enablejsapi:1, origin:location.origin, modestbranding:1 },
+      playerVars: { autoplay:0, controls:1, playsinline:1, rel:0, enablejsapi:1, modestbranding:1 },
       events: {
         onReady: function(e){
           ytReady=true; ytLoading=false;
           try { e.target.getIframe().setAttribute('referrerpolicy','strict-origin-when-cross-origin'); } catch(err){}
-          // Explicitly load the playlist via the IFrame API; this is more reliable
-          // than passing list parameters only during player construction.
+          // Start from the first item in the public Hindi music playlist.
           e.target.loadPlaylist({list:YT_PLAYLIST_ID,listType:'playlist',index:0});
-          if(autoplay) setTimeout(()=>{try{e.target.playVideo();}catch(err){}},250);
-          if(location.protocol==='file:') toast('YouTube के लिए वेबसाइट localhost या GitHub Pages पर खोलें।');
+          if(autoplay) setTimeout(()=>{try{e.target.playVideo();}catch(err){}},700);
         },
         onStateChange: function(e){
           if(e.data===YT.PlayerState.PLAYING){ $('playIc').innerHTML=PAUSE; $('time').textContent='YouTube पर चल रहा है'; }
           else if(e.data===YT.PlayerState.PAUSED || e.data===YT.PlayerState.ENDED){ $('playIc').innerHTML=PLAY; }
+          else if(e.data===YT.PlayerState.BUFFERING){ $('time').textContent='गाना लोड हो रहा है…'; }
         },
         onError: function(e){
+          ytLoading=false;
           $('time').textContent='YouTube वीडियो उपलब्ध नहीं';
-          toast('YouTube ने इस playlist/video को embed करने से रोका। दूसरा public, embeddable playlist ID इस्तेमाल करें। Error: '+e.data);
+          const reason = ({2:'वीडियो ID या playlist गलत है।',5:'HTML5 playback error।',100:'वीडियो हटाया गया या निजी है।',101:'इस वीडियो को embed करने की अनुमति नहीं है।',150:'इस वीडियो को embed करने की अनुमति नहीं है।',153:'YouTube को referrer जानकारी नहीं मिली।'})[e.data] || 'YouTube वीडियो नहीं चला।';
+          toast(reason+' Error: '+e.data+' — Local गाने अभी भी इस्तेमाल कर सकते हैं।');
         }
       }
     });
   };
-  if(!document.querySelector('script[data-youtube-iframe-api]')){const tag=document.createElement('script');tag.src='https://www.youtube.com/iframe_api';tag.dataset.youtubeIframeApi='1';document.head.appendChild(tag);}
+  if(!document.querySelector('script[data-youtube-iframe-api]')){
+    const tag=document.createElement('script');
+    tag.src='https://www.youtube.com/iframe_api';
+    tag.dataset.youtubeIframeApi='1';
+    document.head.appendChild(tag);
+  }
 }
 function renderSongList(){
   const list=$('songList'); if(!list)return;
@@ -411,23 +425,7 @@ document.addEventListener('click',e=>{if($('songBrowser').classList.contains('op
 function load(i,autoplay){if(!tracks.length){toast('गाने अभी लोड हो रहे हैं।');return;}idx=(i+tracks.length)%tracks.length;const track=tracks[idx];setTitle(track.title);renderSongList();try{localStorage.setItem(RESUME_KEY,JSON.stringify({idx,title:track.title,mode:playMode}));}catch(e){} if(autoplay){if(playMode==='local')playLocal(idx);else {ensurePlayer(true);toast('YouTube playlist में exact song चुनने के लिए player के अंदर playlist controls इस्तेमाल करें।');}}else toast('चुना गया: '+track.title+' — Play दबाएँ।');}
 function play(){if(playMode==='local')playLocal(idx);else ensurePlayer(true);}
 function toggle(){if(playMode==='local'){const a=$('localAudio');if(!a.src){playLocal(idx);return;}if(a.paused){a.play().catch(()=>toast('यह MP3 path नहीं चला। songs.json और songs/ folder जाँचें।'));}else a.pause();return;} if(!ytReady){ensurePlayer(true);return;} const state=ytPlayer.getPlayerState(); if(state===YT.PlayerState.PLAYING){ytPlayer.pauseVideo();$('playIc').innerHTML=PLAY;}else{ytPlayer.playVideo();$('playIc').innerHTML=PAUSE;}}
-function playLocal(i){
-  if(!localTracks.length){loadHostedSongs();toast('Local गाने लोड हो रहे हैं—एक पल बाद Play दबाएँ।');return;}
-  idx=(i+localTracks.length)%localTracks.length;
-  const t=localTracks[idx];setTitle(t.title);
-  const a=$('localAudio');
-  a.pause();
-  if(a.getAttribute('src')!==t.src){a.src=t.src;a.load();}
-  a.preload='auto';
-  const p=a.play();
-  if(p&&p.then)p.then(()=>{$('playIc').innerHTML=PAUSE;$('time').textContent='Local गाना चल रहा है';}).catch(err=>{
-    $('playIc').innerHTML=PLAY;
-    $('time').textContent='Play दबाएँ या MP3 path जाँचें';
-    console.error('Local audio playback failed:',t.src,err);
-    toast('Local गाना नहीं चला: songs/ में MP3 file और songs.json का src path जाँचें।');
-  });
-  renderSongList();
-}
+function playLocal(i){if(!localTracks.length){toast('Local tracks नहीं मिले। पहले ♫ सभी गाने खोलकर Local Songs चुनें; songs.json में tracks होने चाहिए।');return;}idx=(i+localTracks.length)%localTracks.length;const t=localTracks[idx];setTitle(t.title);const a=$('localAudio');if(a.src!==t.src){a.src=t.src;a.load();}const p=a.play();if(p&&p.then)p.then(()=>{$('playIc').innerHTML=PAUSE;$('time').textContent='Local गाना चल रहा है';}).catch(()=>toast('गाना नहीं चला — songs.json में src path जाँचें।'));renderSongList();}
 $('localAudio').addEventListener('ended',()=>playLocal((idx+1)%localTracks.length));
 $('localAudio').addEventListener('pause',()=>{if(playMode==='local')$('playIc').innerHTML=PLAY;});
 $('localAudio').addEventListener('play',()=>{if(playMode==='local')$('playIc').innerHTML=PAUSE;});
@@ -441,7 +439,7 @@ function setMode(mode){
     $('localModeList').classList.add('active');$('youtubeModeList').classList.remove('active');
     tracks=localTracks;idx=Math.min(idx,Math.max(0,tracks.length-1));
     setTitle(tracks[idx]?.title||'Local गाने लोड हो रहे हैं…');$('time').textContent='Local songs';
-    if(localTracks.length && !a.src) playLocal(idx); else if(!localTracks.length) loadHostedSongs();
+    if(localTracks.length && !a.src) playLocal(idx);
   }else{
     a.pause();$('youtubePlayer').style.display='block';
     $('youtubeModeList').classList.add('active');$('localModeList').classList.remove('active');
@@ -458,7 +456,7 @@ $('miniYouTubeMode').addEventListener('click',()=>{setMode('youtube');syncMiniMo
 
 async function loadHostedSongs(){
   try{
-    const r=await fetch('./songs.json?v=2',{cache:'no-store'});
+    const r=await fetch('./songs.json',{cache:'force-cache'});
     if(!r.ok)throw new Error('songs.json HTTP '+r.status);
     const data=await r.json();
     if(!Array.isArray(data))throw new Error('songs.json must be an array');
@@ -477,15 +475,12 @@ async function loadHostedSongs(){
     }).filter(Boolean);
     if(!localTracks.length)throw new Error('No local tracks');
     tracks=localTracks;idx=0;playMode='local';setTitle(localTracks[0].title);
-    $('time').textContent=`${localTracks.length} local गाने तैयार — Play दबाएँ`;
+    $('time').textContent=`${localTracks.length} local गाने तैयार`;
     renderSongList();
-    // Prepare only the first song. Do not autoplay on page load because browsers
-    // commonly block sound until the visitor clicks a playback control.
-    const a=$('localAudio');
-    a.pause();
-    a.preload='none';
-    a.removeAttribute('src');
-    a.load();
+    // Request only the first audio file; never wait for all 58 files to download.
+    const a=$('localAudio');a.preload='auto';a.src=localTracks[0].src;a.load();
+    const attempt=a.play();
+    if(attempt&&attempt.then)attempt.then(()=>{$('playIc').innerHTML=PAUSE;$('time').textContent='Local गाना चल रहा है';}).catch(()=>{$('playIc').innerHTML=PLAY;$('time').textContent='Play दबाएँ';});
   }catch(e){
     console.error(e);localTracks=[];tracks=[];renderSongList();setTitle('Local गाने उपलब्ध नहीं');
     $('time').textContent=location.protocol==='file:'?'START-MUSICAL-AUTO-SEVA.bat चलाएँ':'songs.json नहीं मिला';
