@@ -96,19 +96,14 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 
 /* player */
 
-.player{position:fixed;left:50%;bottom:11vh;transform:translateX(-50%);width:min(480px,92vw);height:86px;border-radius:99px;display:flex;align-items:center;gap:16px;padding:0 20px 0 12px;
+.player.yt-mini-card{position:fixed;left:auto;right:14px;top:auto;bottom:14px;transform:none;width:min(250px,calc(100vw - 24px));height:auto;border-radius:20px;display:flex;flex-direction:column;gap:0;padding:7px;background:linear-gradient(135deg,rgba(15,20,26,.92),rgba(18,25,34,.88));border:1px solid rgba(255,255,255,.34);backdrop-filter:blur(22px) saturate(1.35);-webkit-backdrop-filter:blur(22px) saturate(1.35);box-shadow:0 18px 48px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.18);z-index:7;overflow:hidden}
+.yt-mini-head{height:20px;display:flex;align-items:center;justify-content:space-between;padding:0 2px 5px;cursor:grab;touch-action:none;user-select:none;color:#fff;font:700 10px Poppins,system-ui,sans-serif;letter-spacing:.25px}
+.yt-brand{display:flex;align-items:center;gap:6px}.yt-brand svg{width:17px;height:17px;fill:#ff1744}.yt-live-dot{width:6px;height:6px;border-radius:50%;background:#ff304f;box-shadow:0 0 9px #ff304f}
+#youtubePlayer{width:100%;aspect-ratio:16/9;height:auto;min-height:0;border-radius:11px;overflow:hidden;background:#000;box-shadow:0 4px 14px #0007}
+#youtubePlayer iframe{width:100%;height:100%;display:block}
+.yt-mini-controls{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:6px 2px 1px;min-width:0}.yt-mini-meta{min-width:0;flex:1}.np{font-size:8px;font-weight:700;letter-spacing:1.3px;color:rgba(255,255,255,.68)}.song{font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#fff}.time{font-size:9px;margin-top:3px;color:rgba(255,255,255,.68)}
+.ctrl{display:flex;align-items:center;gap:5px;flex:none}.ctrl button{width:27px;height:27px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.13);color:#fff;cursor:pointer}.ctrl button.main{width:30px;height:30px;background:rgba(255,255,255,.27)}.ctrl svg{width:15px;height:15px;fill:#fff}
 
-  background:linear-gradient(135deg,rgba(255,255,255,.28),rgba(255,255,255,.1));border:1.5px solid var(--line);backdrop-filter:blur(22px) saturate(1.4);-webkit-backdrop-filter:blur(22px) saturate(1.4);box-shadow:0 20px 50px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.4);z-index:5}
-
-.disc{position:relative;flex:none;width:66px;height:66px;border-radius:50%;background:repeating-radial-gradient(#111 0 2px,#1d1d1d 2px 4px);box-shadow:0 4px 14px rgba(0,0,0,.6);animation:spin 5s linear infinite;animation-play-state:paused}
-
-.disc.on{animation-play-state:running}
-
-.disc b{position:absolute;inset:17px;border-radius:50%;background:conic-gradient(#ff8a3d,#e8112d,#6a5cff,#2ee0c5,#ff8a3d);border:2px solid #000}
-
-.disc b::after{content:"";position:absolute;inset:40%;border-radius:50%;background:#000}
-
-@keyframes spin{to{transform:rotate(360deg)}}
 
 .meta{flex:1;min-width:0}
 
@@ -188,13 +183,8 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 
   .instagram .ig-icon{width:16px;height:16px}
 
-  .player{bottom:calc(max(env(safe-area-inset-bottom),10px) + 48px);height:74px;width:calc(100vw - 20px);gap:8px;padding:0 10px}
-
-  .disc{width:48px;height:48px}.disc b{inset:12px}
-
-  .meta{min-width:0}.np{font-size:8px;letter-spacing:1.2px}.song{font-size:12px}.time{font-size:9px;margin-top:4px}
-
-  .ctrl{gap:4px}.ctrl button{width:31px;height:31px}.ctrl button.main{width:35px;height:35px}
+  .player.yt-mini-card{width:min(230px,calc(100vw - 20px));padding:6px;right:10px;bottom:10px}
+  .yt-mini-controls{padding-top:7px}.ctrl{gap:4px}.ctrl button{width:29px;height:29px}.ctrl button.main{width:33px;height:33px}
 
   .pill{padding:0 10px;height:36px;font-size:11px;gap:6px}.round{width:36px;height:36px}.top{right:8px;gap:6px}
 
@@ -202,10 +192,7 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 
 @media(max-width:380px){
 
-  .player{gap:6px;padding:0 7px}.disc{width:40px;height:40px}.disc b{inset:10px}
-
-  .ctrl button{width:28px;height:28px}.ctrl button.main{width:32px;height:32px}
-
+  .player.yt-mini-card{padding:6px}.ctrl button{width:25px;height:25px}.ctrl button.main{width:28px;height:28px}
   .song{font-size:11px}.top .round.skull{display:none}
 
   .instagram{font-size:9px}
@@ -218,7 +205,7 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 
   .sub{font-size:12px;margin-top:5px}.title-tools{margin-top:4px}
 
-  .player{bottom:8px;height:64px;width:min(430px,80vw)}.disc{width:46px;height:46px}.disc b{inset:11px}
+  .player.yt-mini-card{bottom:8px;width:min(230px,calc(100vw - 16px));right:8px}
 
   .signature,.instagram{bottom:8px}.top{top:8px}
 
@@ -278,40 +265,22 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 
 
 
-<div class="player">
-
-  <div class="disc" id="disc"><b></b></div>
-
-  <div class="meta">
-
-    <div class="np">अभी बज रहा है</div>
-
-    <div class="song" id="song"><span id="songT">—</span></div>
-
-    <div class="bar" id="bar"><div id="fill"></div></div>
-
-    <div class="time" id="time">0:00 / 0:00</div>
-
+<div class="player yt-mini-card" id="musicMiniCard">
+  <div class="yt-mini-head"><span class="yt-brand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.3 3.6-6.3 3.6Z"/></svg> YouTube Music</span><span class="yt-live-dot"></span></div>
+  <div id="youtubePlayer" aria-label="YouTube music player"></div>
+  <div class="yt-mini-controls">
+    <div class="yt-mini-meta"><div class="np">अभी बज रहा है</div><div class="song" id="song"><span id="songT">—</span></div><div class="time" id="time">Play दबाएँ</div></div>
+    <div class="ctrl">
+      <button id="prev" aria-label="Previous" title="Previous"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg></button>
+      <button id="play" class="main" aria-label="Play/Pause" title="Play/Pause"><svg viewBox="0 0 24 24" id="playIc"><path d="M8 5v14l11-7z"/></svg></button>
+      <button id="next" aria-label="Next" title="Next"><svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z"/></svg></button>
+    </div>
   </div>
-
-  <div class="ctrl">
-
-    <button id="prev" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg></button>
-
-    <button id="play" class="main" aria-label="Play/Pause"><svg viewBox="0 0 24 24" id="playIc"><path d="M8 5v14l11-7z"/></svg></button>
-
-    <button id="next" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z"/></svg></button>
-
-  </div>
-
 </div>
-
-
 
 <button class="song-browser-trigger" id="songBrowserToggle" type="button" aria-expanded="false" aria-controls="songBrowser">♫ सभी गाने <span id="songBrowserButtonCount">…</span></button>
 <section class="song-browser" id="songBrowser" aria-label="गानों की सूची">
   <div class="song-browser-head"><div><div class="song-browser-title">अपना गाना चुनें</div><div class="song-browser-count" id="songBrowserCount">गाने लोड हो रहे हैं…</div></div><button class="song-browser-close" id="songBrowserClose" type="button" aria-label="बंद करें">×</button></div>
-  <div id="youtubePlayer" style="position:fixed;left:10px;bottom:10px;z-index:7;width:300px;height:170px;max-width:calc(100vw - 20px);border-radius:12px;overflow:hidden;background:#000;box-shadow:0 8px 28px #0008;display:none" aria-label="YouTube music player"></div>
   <input class="song-search" id="songSearch" type="search" placeholder="गाना खोजें…" autocomplete="off" aria-label="गाना खोजें">
   <div class="song-list" id="songList" role="listbox" aria-label="सभी गाने"></div>
 </section>
@@ -360,10 +329,10 @@ function ensurePlayer(autoplay=true){
   ytLoading=true;
   window.onYouTubeIframeAPIReady = function(){
     ytPlayer = new YT.Player('youtubePlayer', {
-      width:'300', height:'170',
-      playerVars: { listType:'playlist', list:YT_PLAYLIST_ID, autoplay:autoplay?1:0, controls:1, playsinline:1, rel:0, enablejsapi:1, origin:location.origin },
+      width:'320', height:'180',
+      playerVars: { listType:'playlist', list:YT_PLAYLIST_ID, autoplay:autoplay?1:0, controls:1, playsinline:1, rel:0, enablejsapi:1, origin:location.origin, modestbranding:1 },
       events: {
-        onReady: function(e){ ytReady=true; ytLoading=false; if(autoplay) e.target.playVideo(); toast('हिंदी गाने अब इसी वेबसाइट पर चलेंगे 🎵'); },
+        onReady: function(e){ ytReady=true; ytLoading=false; try{e.target.getIframe().setAttribute('referrerpolicy','strict-origin-when-cross-origin');}catch(err){} if(autoplay) e.target.playVideo(); if(location.protocol==='file:'){toast('Local file पर YouTube Error 153 आ सकता है — localhost या GitHub Pages पर खोलें।');}else{toast('हिंदी गाने अब इसी वेबसाइट पर चलेंगे 🎵');} },
         onStateChange: function(e){ if(e.data===YT.PlayerState.PLAYING){ $('playIc').innerHTML=PAUSE; $('time').textContent='YouTube पर चल रहा है'; } else if(e.data===YT.PlayerState.PAUSED || e.data===YT.PlayerState.ENDED){ $('playIc').innerHTML=PLAY; } },
         onError: function(){ toast('यह playlist embed नहीं हो सकी। दूसरी public playlist चुननी होगी।'); }
       }
@@ -376,7 +345,7 @@ function renderSongList(){
   const query=($('songSearch').value||'').trim().toLocaleLowerCase();
   const visible=tracks.map((track,originalIndex)=>({track,originalIndex})).filter(x=>x.track.title.toLocaleLowerCase().includes(query));
   $('songBrowserButtonCount').textContent=tracks.length?`(${tracks.length})`:'';
-  $('songBrowserCount').textContent=`${tracks.length} हिंदी गानों के नाम • असली playback नीचे YouTube player में`;
+  $('songBrowserCount').textContent=`${tracks.length} हिंदी गानों के नाम • YouTube player में playback`;
   if(!visible.length){list.innerHTML='<div class="song-empty">कोई गाना नहीं मिला। दूसरा नाम खोजें।</div>';return;}
   list.innerHTML='';
   visible.forEach(({track,originalIndex})=>{
@@ -399,8 +368,29 @@ function toggle(){if(!ytReady){ensurePlayer(true);return;} const state=ytPlayer.
 $('play').onclick=toggle;
 $('next').onclick=()=>{if(ytReady)ytPlayer.nextVideo();else ensurePlayer(true);};
 $('prev').onclick=()=>{if(ytReady)ytPlayer.previousVideo();else ensurePlayer(true);};
-$('bar').onclick=()=>{if(ytReady)toast('Seek करने के लिए नीचे YouTube player की timeline इस्तेमाल करें।');else ensurePlayer(true);};
+$('bar').onclick=()=>{if(ytReady)toast('गाना आगे करने के लिए YouTube player की timeline इस्तेमाल करें।');else ensurePlayer(true);};
 $('fill').style.width='0%';$('time').textContent='Play दबाएँ';
+// Drag the compact player by its header; keep it inside the visible viewport.
+(function makePlayerDraggable(){
+  const card=$('musicMiniCard'), handle=card.querySelector('.yt-mini-head');
+  let dragging=false,startX=0,startY=0,baseX=0,baseY=0;
+  handle.addEventListener('pointerdown',e=>{
+    if(e.target.closest('button')) return;
+    const r=card.getBoundingClientRect(); dragging=true; startX=e.clientX; startY=e.clientY; baseX=r.left; baseY=r.top;
+    card.style.left=r.left+'px'; card.style.top=r.top+'px'; card.style.right='auto'; card.style.bottom='auto'; card.style.transform='none';
+    handle.setPointerCapture(e.pointerId); handle.style.cursor='grabbing'; e.preventDefault();
+  });
+  handle.addEventListener('pointermove',e=>{
+    if(!dragging)return;
+    const r=card.getBoundingClientRect();
+    const x=Math.max(4,Math.min(window.innerWidth-r.width-4,baseX+e.clientX-startX));
+    const y=Math.max(4,Math.min(window.innerHeight-r.height-4,baseY+e.clientY-startY));
+    card.style.left=x+'px'; card.style.top=y+'px';
+  });
+  const stop=()=>{dragging=false;handle.style.cursor='grab';};
+  handle.addEventListener('pointerup',stop); handle.addEventListener('pointercancel',stop);
+  window.addEventListener('resize',()=>{const r=card.getBoundingClientRect();card.style.left=Math.max(4,Math.min(window.innerWidth-r.width-4,r.left))+'px';card.style.top=Math.max(4,Math.min(window.innerHeight-r.height-4,r.top))+'px';card.style.right='auto';card.style.bottom='auto';card.style.transform='none';});
+})();
 renderSongList(); setTitle(tracks[0].title);
 
 /* top buttons */
