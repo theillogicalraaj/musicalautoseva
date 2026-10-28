@@ -368,7 +368,7 @@ button,.vehicle-select,.song-browser-trigger,.mode-switch button,.ctrl button{wi
 
 <video id="bg" muted src="auto.mp4" autoplay loop playsinline preload="auto"></video>
 
-<video id="rainBg" muted src="rain.mp4" autoplay loop playsinline preload="metadata" aria-hidden="true"></video>
+<video id="rainBg" muted src="rain.mp4" loop playsinline preload="none" aria-hidden="true"></video>
 
 <div class="shade"></div>
 
@@ -454,13 +454,13 @@ let PLAYLIST = ["Pal Pal Dil Ke Paas", "Chura Liya Hai Tumne Jo Dil Ko", "Kya Hu
 const $ = id => document.getElementById(id);
 let busMode = false;
 const autoEngine = new Audio("sounds/auto-engine.mp3");
-autoEngine.loop = true; autoEngine.preload = "auto";
+autoEngine.loop = true; autoEngine.preload = "none";
 const busEngine = new Audio("sounds/bus-horn.mp3");
-busEngine.loop = true; busEngine.preload = "auto";
+busEngine.loop = true; busEngine.preload = "none";
 const rainSound = new Audio("sounds/rain.mp3");
-rainSound.loop = true; rainSound.preload = "auto";
+rainSound.loop = true; rainSound.preload = "none";
 const busRainSound = new Audio("sounds/bus-rain.mp3");
-busRainSound.loop = true; busRainSound.preload = "auto";
+busRainSound.loop = true; busRainSound.preload = "none";
 const bg = $('bg'), rainBg = $('rainBg');
 let idx = 0, started = false, tracks = [], ytPlayer = null, ytReady = false, ytLoading = false, ytSkipAttempts=0, playMode='local', localTracks=[];
 const RESUME_KEY = 'musicalAutoSeva.hindiPlaylist.v1';
@@ -473,6 +473,16 @@ function setTitle(t){ $('songT').textContent=t; const s=$('song'); s.classList.r
 const YT_PLAYLIST_ID = 'PLJntzxC_E8to';
 let ytPlaylistSyncStarted = false;
 let ytRandomStartChosen = false;
+const connectionInfo = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+const LOW_BANDWIDTH = !!(connectionInfo && (connectionInfo.saveData || /^(slow-2g|2g|3g)$/.test(connectionInfo.effectiveType || '') || (Number(connectionInfo.downlink) > 0 && Number(connectionInfo.downlink) < 1.5)));
+const VERY_SLOW_NETWORK = !!(connectionInfo && (connectionInfo.saveData || /^(slow-2g|2g)$/.test(connectionInfo.effectiveType || '') || (Number(connectionInfo.downlink) > 0 && Number(connectionInfo.downlink) < 0.7)));
+// Never fetch the rain movie until the visitor enables rain. Keep the normal video first in line.
+const mainBackgroundVideo = document.getElementById('bg');
+if (mainBackgroundVideo) { mainBackgroundVideo.preload = 'auto'; mainBackgroundVideo.muted = true; mainBackgroundVideo.setAttribute('playsinline',''); }
+if (VERY_SLOW_NETWORK && mainBackgroundVideo) { mainBackgroundVideo.setAttribute('fetchpriority','high'); }
+// Keep the normal background video as first priority. Load the rain video only when requested.
+const rainBackgroundVideo = document.getElementById('rainBg');
+if (rainBackgroundVideo) { rainBackgroundVideo.pause(); rainBackgroundVideo.preload = 'none'; rainBackgroundVideo.setAttribute('playsinline',''); rainBackgroundVideo.muted = true; }
 async function syncActualYouTubePlaylist(player){
   // Use the IDs returned by the embedded YouTube playlist as the source of truth,
   // rather than the old manually typed 250-song list.
@@ -493,16 +503,26 @@ async function syncActualYouTubePlaylist(player){
     $('songBrowserCount').textContent = `${actual.length} गाने • असली YouTube playlist`;
     // YouTube's public oEmbed endpoint returns the actual title for each video.
     // Keep IDs/order from the playlist even if a title request fails.
-    await Promise.all(actual.map(async (item, i) => {
-      try {
-        const url = 'https://www.youtube.com/oembed?format=json&url=' + encodeURIComponent('https://www.youtube.com/watch?v=' + item.videoId);
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('oEmbed title unavailable');
-        const data = await response.json();
-        if (data && data.title) item.title = data.title;
-      } catch (_) { item.title = `YouTube video ${i+1}`; }
-      if (playMode === 'youtube') { tracks = PLAYLIST.slice(); renderSongList(); }
-    }));
+    // Fetch titles one at a time in the background. Never launch 34 metadata
+    // requests together: that can compete with video playback on weak networks.
+    const loadTitlesQuietly = async () => {
+      for (let i = 0; i < actual.length; i++) {
+        const item = actual[i];
+        if (!item || !item.videoId || !/^Loading song/.test(item.title)) continue;
+        try {
+          const url = 'https://www.youtube.com/oembed?format=json&url=' + encodeURIComponent('https://www.youtube.com/watch?v=' + item.videoId);
+          const response = await fetch(url, {cache:'force-cache'});
+          if (!response.ok) throw new Error('oEmbed title unavailable');
+          const data = await response.json();
+          if (data && data.title) item.title = data.title;
+        } catch (_) { /* Keep placeholder; the player supplies the exact title when played. */ }
+        if (playMode === 'youtube') { tracks = PLAYLIST.slice(); renderSongList(); }
+        // Yield network time to the video/audio stream between title requests.
+        await new Promise(resolve => setTimeout(resolve, LOW_BANDWIDTH ? 1800 : 350));
+      }
+    };
+    if ('requestIdleCallback' in window) requestIdleCallback(() => loadTitlesQuietly(), {timeout:5000});
+    else setTimeout(loadTitlesQuietly, 2500);
     if (playMode === 'youtube') {
       tracks = PLAYLIST.slice();
       idx = Math.max(0, player.getPlaylistIndex ? player.getPlaylistIndex() : 0);
@@ -703,7 +723,7 @@ async function loadHostedSongs(){
     $('time').textContent=`Local playlist • ${localTracks.length} गाने`; syncMiniMode();
     renderSongList();
     // Request only the first audio file; never wait for all 58 files to download.
-    const a=$('localAudio');a.preload='metadata';a.src=localTracks[idx].src;a.load();
+    const a=$('localAudio');a.preload='none';a.removeAttribute('src');a.load();
     // Pick a different random starting song on each page visit, but do not force autoplay (browsers block it).
     $('playIc').innerHTML=PLAY;$('time').textContent='Random song ready • Play दबाएँ';updateSeekUI();
   }catch(e){
@@ -841,6 +861,12 @@ $('rainToggle').onclick = async ()=>{
     if (rainOn) {
       activeRain().volume = rainVolume;
       await activeRain().play();
+      // Fetch the visual rain background on demand, including on slow connections.
+      // Rain is intentionally loaded only after the user asks for it, so it doesn't
+      // compete with the normal background on weak connections. Once enabled, it is
+      // allowed to play on slow connections too.
+      rainBg.preload = 'auto';
+      if (rainBg.readyState < 2) rainBg.load();
       rainBg.play().catch(()=>{});
       toast(busMode ? "बस के लिए बारिश चालू" : "बारिश की आवाज़ चालू");
     } else {
@@ -1051,7 +1077,9 @@ async function setVehicleMode(mode){
   otherRain.pause(); otherRain.currentTime = 0;
   bg.onerror = () => { toast(busMode ? 'बस का background नहीं मिला — प्रोजेक्ट में bus.mp4 जोड़ें।' : 'auto.mp4 background नहीं मिला।'); };
   bg.src = busMode ? 'bus.mp4' : 'auto.mp4'; bg.load(); bg.play().catch(()=>{});
-  rainBg.src = busMode ? 'bus-rain.mp4' : 'rain.mp4'; rainBg.load();
+  rainBg.src = busMode ? 'bus-rain.mp4' : 'rain.mp4';
+  rainBg.preload = rainOn ? 'auto' : 'none';
+  if (rainOn) rainBg.load(); else rainBg.pause();
   // Keep enabled states and volume consistent while switching vehicles.
   if(amb){ engine.volume=autoVolume; engine.play().catch(()=>{ $('amb').classList.add('off'); toast(busMode?'बस हॉर्न के लिए sounds/bus-horn.mp3 जोड़ें।':'ऑटो की आवाज़ नहीं चल पाई।'); }); }
   if(rainOn){ rain.volume=rainVolume; rain.play().catch(()=>{ $('rainToggle').classList.add('off'); toast(busMode?'बस की बारिश के लिए bus-rain.mp3 जोड़ें।':'बारिश की आवाज़ उपलब्ध नहीं।'); }); rainBg.play().catch(()=>{}); }
@@ -1388,23 +1416,25 @@ if ('serviceWorker' in navigator) {
  // Retry a stalled background video gently; muted autoplay is allowed on most mobile browsers.
  ['bg','rainBg'].forEach(id=>{
    const v=document.getElementById(id); if(!v)return;
-   v.preload='metadata'; v.setAttribute('playsinline',''); v.muted=true;
-   let retryTimer=0;
+   v.preload = (id==='bg' ? 'auto' : (rainOn ? 'auto' : 'none')); v.setAttribute('playsinline',''); v.muted=true;
+   if(id==='bg' && VERY_SLOW_NETWORK) v.setAttribute('fetchpriority','high');
+   let retryTimer=0, retryDelay=VERY_SLOW_NETWORK?12000:(LOW_BANDWIDTH?8000:5000);
    const retry=()=>{
+     if(id==='rainBg' && !rainOn) return;
      if(retryTimer)clearTimeout(retryTimer);
      retryTimer=setTimeout(()=>{
-       if(v.paused || v.readyState<2){
+       if((id!=='rainBg'||rainOn) && !document.hidden && navigator.onLine && (v.paused || v.readyState<2)){
          try{const p=v.play();if(p&&p.catch)p.catch(()=>{});}catch(e){}
        }
-     },3500);
+     },retryDelay);
    };
    v.addEventListener('stalled',retry);v.addEventListener('waiting',retry);
-   v.addEventListener('canplay',()=>{if(retryTimer)clearTimeout(retryTimer);});
+   v.addEventListener('canplay',()=>{if(retryTimer)clearTimeout(retryTimer); retryDelay=VERY_SLOW_NETWORK?12000:(LOW_BANDWIDTH?8000:5000);});
    v.addEventListener('error',()=>{if(retryTimer)clearTimeout(retryTimer);});
  });
  // Avoid pre-downloading a whole playlist on slow connections; load the chosen track on demand.
  const audio=document.getElementById('localAudio');
- if(audio){audio.preload='metadata';audio.setAttribute('playsinline','');}
+ if(audio){audio.preload='none';audio.setAttribute('playsinline','');}
  normalizePosition();
 })();
 </script>
