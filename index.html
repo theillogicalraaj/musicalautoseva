@@ -1253,6 +1253,79 @@ if ('serviceWorker' in navigator) {
 (()=>{document.querySelectorAll('.sound-control').forEach(box=>{const b=box.querySelector('.pill');if(b)b.addEventListener('click',()=>{if(matchMedia('(hover: none)').matches)box.classList.toggle('is-expanded')})});})();
 </script>
 
+
+<style id="responsive-player-and-network-fixes">
+/* Keep the collapsed music player pinned to the lower-right corner on every device. */
+#musicMiniCard.yt-mini-card{position:fixed!important;left:auto;right:max(10px,env(safe-area-inset-right))!important;top:auto;bottom:max(10px,env(safe-area-inset-bottom))!important;box-sizing:border-box;width:min(360px,calc(100vw - 20px));max-width:calc(100vw - 20px);max-height:calc(100vh - 20px);max-height:calc(100dvh - 20px);overflow-y:auto;overscroll-behavior:contain;}
+#musicMiniCard.yt-mini-card.auto-collapsed{left:auto!important;right:max(10px,env(safe-area-inset-right))!important;top:auto!important;bottom:max(10px,env(safe-area-inset-bottom))!important;width:min(210px,calc(100vw - 20px))!important;max-height:52px!important;overflow:hidden!important;}
+#musicMiniCard.auto-collapsed .track-seek{display:none!important}
+#musicMiniCard:not(.auto-collapsed) #youtubePlayer{width:100%;max-width:100%;aspect-ratio:16/9;}
+#musicMiniCard:not(.auto-collapsed).youtube-mode #youtubePlayer{height:auto;max-height:none;min-height:0;}
+#musicMiniCard:not(.auto-collapsed).youtube-mode #youtubePlayer iframe{width:100%!important;height:auto!important;aspect-ratio:16/9;min-height:0!important;display:block;}
+#musicMiniCard .yt-mini-controls{flex-wrap:wrap;}
+#musicMiniCard .yt-mini-meta{min-width:0;overflow:hidden;}
+#musicMiniCard .song{overflow:hidden;text-overflow:ellipsis;}
+#songBrowser{max-width:calc(100vw - 20px);max-height:min(55vh,420px);max-height:min(55dvh,420px);overflow:hidden;}
+@media(max-width:600px){
+ #musicMiniCard.yt-mini-card{right:max(8px,env(safe-area-inset-right))!important;bottom:max(8px,env(safe-area-inset-bottom))!important;width: min(380px,calc(100vw - 16px));max-height:calc(100vh - 16px);max-height:calc(100dvh - 16px);padding:8px;}
+ #musicMiniCard.yt-mini-card.auto-collapsed{right:max(8px,env(safe-area-inset-right))!important;bottom:max(8px,env(safe-area-inset-bottom))!important;width:min(200px,calc(100vw - 16px))!important;}
+ #musicMiniCard .mini-mode-switch button{padding:9px 5px;font-size:12px;}
+ #musicMiniCard .yt-mini-controls{align-items:center;}
+ #musicMiniCard .ctrl button{width:36px;height:36px;}
+ #musicMiniCard .ctrl button.main{width:43px;height:43px;}
+ #songBrowser{right:8px!important;left:auto!important;bottom:calc(max(8px,env(safe-area-inset-bottom)) + 70px)!important;width:min(380px,calc(100vw - 16px));max-height:55dvh;}
+}
+@media(max-width:360px){#musicMiniCard .song{font-size:13px}#musicMiniCard .ctrl button{width:31px;height:31px}#musicMiniCard .ctrl button.main{width:37px;height:37px}}
+</style>
+<script id="player-position-and-network-recovery">
+(()=>{
+ const card=document.getElementById('musicMiniCard');
+ if(!card)return;
+ // A collapsed card always returns to bottom-right; expanded card also stays within the viewport.
+ const pinBottomRight=()=>{
+   card.style.setProperty('left','auto','important');
+   card.style.setProperty('right','max(8px, env(safe-area-inset-right))','important');
+   card.style.setProperty('top','auto','important');
+   card.style.setProperty('bottom','max(8px, env(safe-area-inset-bottom))','important');
+   card.style.setProperty('transform','none','important');
+ };
+ const normalizePosition=()=>{
+   if(card.classList.contains('auto-collapsed')) pinBottomRight();
+   else {
+     const r=card.getBoundingClientRect();
+     if(r.right>innerWidth-4 || r.left<4 || r.bottom>innerHeight-4){pinBottomRight();}
+   }
+ };
+ new MutationObserver(normalizePosition).observe(card,{attributes:true,attributeFilter:['class']});
+ window.addEventListener('resize',normalizePosition,{passive:true});
+ window.addEventListener('orientationchange',()=>setTimeout(normalizePosition,150),{passive:true});
+ card.querySelector('.yt-mini-head')?.addEventListener('click',()=>{
+   if(card.classList.contains('auto-collapsed')){card.classList.remove('auto-collapsed');pinBottomRight();}
+ });
+ // Retry a stalled background video gently; muted autoplay is allowed on most mobile browsers.
+ ['bg','rainBg'].forEach(id=>{
+   const v=document.getElementById(id); if(!v)return;
+   v.preload='metadata'; v.setAttribute('playsinline',''); v.muted=true;
+   let retryTimer=0;
+   const retry=()=>{
+     if(retryTimer)clearTimeout(retryTimer);
+     retryTimer=setTimeout(()=>{
+       if(v.paused || v.readyState<2){
+         try{const p=v.play();if(p&&p.catch)p.catch(()=>{});}catch(e){}
+       }
+     },3500);
+   };
+   v.addEventListener('stalled',retry);v.addEventListener('waiting',retry);
+   v.addEventListener('canplay',()=>{if(retryTimer)clearTimeout(retryTimer);});
+   v.addEventListener('error',()=>{if(retryTimer)clearTimeout(retryTimer);});
+ });
+ // Avoid pre-downloading a whole playlist on slow connections; load the chosen track on demand.
+ const audio=document.getElementById('localAudio');
+ if(audio){audio.preload='metadata';audio.setAttribute('playsinline','');}
+ normalizePosition();
+})();
+</script>
+
 </body>
 
 </html>
