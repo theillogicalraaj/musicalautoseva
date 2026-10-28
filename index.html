@@ -472,6 +472,7 @@ function setTitle(t){ $('songT').textContent=t; const s=$('song'); s.classList.r
 // arbitrary song-title search inside an embed, so the embedded playlist controls select tracks.
 const YT_PLAYLIST_ID = 'PLJntzxC_E8to';
 let ytPlaylistSyncStarted = false;
+let ytRandomStartChosen = false;
 async function syncActualYouTubePlaylist(player){
   // Use the IDs returned by the embedded YouTube playlist as the source of truth,
   // rather than the old manually typed 250-song list.
@@ -480,7 +481,15 @@ async function syncActualYouTubePlaylist(player){
     if (!Array.isArray(ids) || !ids.length) return;
     const actual = ids.map((videoId, i) => ({title:`Loading song ${i+1}…`, videoId}));
     PLAYLIST = actual;
-    if (playMode === 'youtube') { tracks = PLAYLIST.slice(); idx = Math.max(0, player.getPlaylistIndex ? player.getPlaylistIndex() : 0); renderSongList(); }
+    // Pick a fresh random track once per page load, using the real YouTube playlist length.
+    if (!ytRandomStartChosen) {
+      idx = Math.floor(Math.random() * actual.length);
+      ytRandomStartChosen = true;
+      try { player.playVideoAt(idx); } catch (_) {}
+    } else {
+      idx = Math.max(0, player.getPlaylistIndex ? player.getPlaylistIndex() : 0);
+    }
+    if (playMode === 'youtube') { tracks = PLAYLIST.slice(); renderSongList(); }
     $('songBrowserCount').textContent = `${actual.length} गाने • असली YouTube playlist`;
     // YouTube's public oEmbed endpoint returns the actual title for each video.
     // Keep IDs/order from the playlist even if a title request fails.
