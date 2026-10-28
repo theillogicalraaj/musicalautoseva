@@ -366,7 +366,7 @@ button,.vehicle-select,.song-browser-trigger,.mode-switch button,.ctrl button{wi
 
 
 
-<video id="bg" muted src="auto.mp4" autoplay loop playsinline preload="metadata"></video>
+<video id="bg" muted src="auto.mp4" autoplay loop playsinline preload="auto"></video>
 
 <video id="rainBg" muted src="rain.mp4" autoplay loop playsinline preload="metadata" aria-hidden="true"></video>
 
@@ -470,7 +470,7 @@ const PLAY = '<path d="M8 5v14l11-7z"/>', PAUSE = '<path d="M6 5h4v14H6zm8 0h4v1
 function setTitle(t){ $('songT').textContent=t; const s=$('song'); s.classList.remove('run'); requestAnimationFrame(()=>{if($('songT').scrollWidth>s.clientWidth)s.classList.add('run');}); }
 // A public Hindi Bollywood playlist plays inside the page. YouTube does not permit
 // arbitrary song-title search inside an embed, so the embedded playlist controls select tracks.
-const YT_PLAYLIST_ID = 'PLNkswAYRbnxX9p9cWIinXkiKVPZfjRZ8b';
+const YT_PLAYLIST_ID = 'PLfdfb0LKtKKs8IcyIvtsf_FfmJU-1pbI1';
 function ensurePlayer(autoplay=true){
   const card=$('musicMiniCard');
   card.classList.add('youtube-mode');
