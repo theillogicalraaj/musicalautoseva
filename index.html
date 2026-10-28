@@ -507,8 +507,10 @@ function ensurePlayer(autoplay=true){
           try { e.target.getIframe().setAttribute('referrerpolicy','strict-origin-when-cross-origin'); } catch(err){}
           // Load the playlist once when the player becomes ready.
           try { e.target.setLoop(false); e.target.setShuffle(false); } catch(err){}
+          // loadPlaylist() already starts playback. Calling playVideo() again while
+          // YouTube is showing a preroll ad can interrupt the transition to the song.
+          // Let YouTube finish the ad and start the selected playlist item itself.
           e.target.loadPlaylist({list:YT_PLAYLIST_ID,listType:'playlist',index:Math.max(0,Math.min(idx,PLAYLIST.length-1))});
-          if(autoplay) setTimeout(()=>{try{e.target.playVideo();}catch(err){}},700);
         },
         onStateChange: function(e){
           if(e.data===YT.PlayerState.PLAYING){ try{applyMusicVolume();}catch(err){}
