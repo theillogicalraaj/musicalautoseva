@@ -506,7 +506,7 @@ function ensurePlayer(autoplay=true){
           ytReady=true; ytLoading=false; setTimeout(()=>{try{applyMusicVolume();}catch(e){}},0);
           try { e.target.getIframe().setAttribute('referrerpolicy','strict-origin-when-cross-origin'); } catch(err){}
           // Load the playlist once when the player becomes ready.
-          try { e.target.setLoop(true); e.target.setShuffle(false); } catch(err){}
+          try { e.target.setLoop(false); e.target.setShuffle(false); } catch(err){}
           e.target.loadPlaylist({list:YT_PLAYLIST_ID,listType:'playlist',index:Math.max(0,Math.min(idx,PLAYLIST.length-1))});
           if(autoplay) setTimeout(()=>{try{e.target.playVideo();}catch(err){}},700);
         },
@@ -516,7 +516,7 @@ function ensurePlayer(autoplay=true){
             try { const d=e.target.getVideoData(); if(d && d.title) setTitle(d.title); } catch(err){}
             ytSkipAttempts=0;
           } else if(e.data===YT.PlayerState.PAUSED){ $('playIc').innerHTML=PLAY; }
-          else if(e.data===YT.PlayerState.ENDED){ $('playIc').innerHTML=PLAY; try{e.target.nextVideo();setTimeout(()=>{try{e.target.playVideo();}catch(err){}},400);}catch(err){} }
+          else if(e.data===YT.PlayerState.ENDED){ $('playIc').innerHTML=PLAY; /* YouTube playlist advances automatically; do not call nextVideo here or tracks can be skipped/restarted. */ }
           else if(e.data===YT.PlayerState.BUFFERING){ $('time').textContent='गाना लोड हो रहा है…'; }
         },
         onError: function(e){
