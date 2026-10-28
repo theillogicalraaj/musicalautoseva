@@ -450,7 +450,7 @@ button,.vehicle-select,.song-browser-trigger,.mode-switch button,.ctrl button{wi
 <script>
 
 /* ===== In-page Hindi music player. No redirect to YouTube. ===== */
-const PLAYLIST = ["Pal Pal Dil Ke Paas", "Chura Liya Hai Tumne Jo Dil Ko", "Kya Hua Tera Wada", "O Mere Dil Ke Chain", "Yeh Dosti Hum Nahin Todenge", "Tere Bina Zindagi Se", "Lag Ja Gale", "Aap Ki Aankhon Mein Kuch", "Rimjhim Gire Saawan", "Kabhi Kabhie Mere Dil Mein", "Ek Ajnabee Haseena Se", "Mere Sapno Ki Rani", "Roop Tera Mastana", "Pyaar Deewana Hota Hai", "Zindagi Ek Safar Hai Suhana", "Musafir Hoon Yaaron", "Tere Mere Milan Ki Yeh Raina", "Bade Achhe Lagte Hain", "Dil Kya Kare", "Humein Tumse Pyaar Kitna", "Aanewala Pal Janewala Hai", "Tere Chehre Se Nazar Nahin", "Yeh Shaam Mastani", "Gulabi Aankhen", "Kora Kagaz Tha Yeh Man Mera", "Tere Bina Jiya Jaye Na", "Pyaar Hua Iqrar Hua", "Ajeeb Dastaan Hai Yeh", "Aaja Aaja Main Hoon Pyar Tera", "Aaj Kal Tere Mere Pyar Ke Charche", "Meri Mehbooba", "Humko Sirf Tumse", "Pehla Nasha", "Ek Ladki Ko Dekha", "Kuch Na Kaho", "Tujhe Dekha To", "Ho Gaya Hai Tujhko To Pyar Sajna", "Ruk Ja O Dil Deewane", "Mehndi Laga Ke Rakhna", "Didi Tera Devar Deewana", "Kabhi Main Kahoon", "Dil Hai Ke Manta Nahin", "Adayein Bhi Hain", "Tu Pyar Hai Kisi Aur Ka", "Main Duniya Bhula Doonga", "Nazar Ke Samne", "Jeeye To Jeeye Kaise", "Dheere Dheere Se Meri Zindagi", "Sochenge Tumhe Pyar", "Do Dil Mil Rahe Hain", "Pardesi Pardesi", "Kitna Pyaara Tujhe Rabne Banaya", "Teri Chunnariya", "Aankhon Se Tune Kya Keh Diya", "Jadoo Hai Tera", "Jo Haal Dil Ka", "Kahin Pyaar Na Ho Jaaye", "Mera Mann", "Chand Chhupa Badal Mein", "Taal Se Taal Mila", "Ishq Bina", "Ramta Jogi", "Chaiyya Chaiyya", "Dil Se Re", "Ae Ajnabi", "Satrangi Re", "Yeh Haseen Wadiyan", "Tu Hi Re", "Hum Dil De Chuke Sanam", "Aankhon Ki Gustakhiyan", "Nimbooda", "Dholi Taro Dhol Baaje", "Madhosh Dil Ki Dhadkan", "Aankh Hai Bhari Bhari", "Mera Dil Bhi Kitna Pagal Hai", "Tumhein Apna Banane Ki Kasam", "Saajan Saajan", "Bahut Pyaar Karte Hain", "Tu Shayar Hai", "Dekha Hai Pehli Baar", "Pehli Baar Mile Hain", "Mujhe Neend Na Aaye", "Papa Kehte Hain", "Gazab Ka Hai Din", "Akele Hain To Kya Gham Hai", "Khambe Jaisi Khadi Hai", "Main Koi Aisa Geet Gaoon", "Chupana Bhi Nahi Aata", "Tere Dar Par Sanam", "Yeh Kaali Kaali Aankhen", "Baazigar O Baazigar", "Kitabein Bahut Si", "Jaati Hoon Main", "Soldier Soldier", "Mere Khwabon Mein", "Ladki Badi Anjani Hai", "Koi Mil Gaya", "Kuch Kuch Hota Hai", "Saajanji Ghar Aaye", "Yeh Ladka Hai Deewana", "Tujhe Yaad Na Meri Aayee", "Pyaar Kar", "Dil To Pagal Hai", "Are Re Are", "Bholi Si Surat", "Le Gayi", "Dholna", "Chand Sitare", "Aati Kya Khandala", "Mere Mehboob Mere Sanam", "Chamma Chamma", "Choli Ke Peeche", "Duniya Haseeno Ka Mela", "Ankhiyon Se Goli Maare", "Makhna", "Sona Kitna Sona Hai", "O O Jaane Jaana", "Pyaar Kiya To Nibhana", "Kisi Disco Mein Jaaye", "Hai Hukku Hai Hukku", "Tan Tana Tan", "Oonchi Hai Building", "UP Wala Thumka", "What Is Mobile Number", "Kisi Din Banoongi Main", "Tere Pyar Mein Dil Deewana", "Tere Ishq Mein Nachenge", "Mera Chand Mujhe Aaya Hai Nazar", "Aankhon Mein Base Ho Tum", "Hum Laakh Chupaye", "Kal Ho Naa Ho", "Pretty Woman", "Maahi Ve", "Kuch To Hua Hai", "Suraj Hua Maddham", "You Are My Soniya", "Mitwa", "Tumhi Dekho Naa", "Kabhi Alvida Naa Kehna", "Where's The Party Tonight", "It's The Time To Disco", "Koi Kahe Kehta Rahe", "Dil Chahta Hai", "Jaane Kyon", "Tanhayee", "Aankhon Mein Teri", "Ajab Si", "Zara Sa", "Haan Tu Hain", "Kya Mujhe Pyaar Hai", "Tu Hi Meri Shab Hai", "Aadat", "Bheegi Bheegi", "Woh Lamhe Woh Baatein", "Jhalak Dikhla Ja", "Aashiq Banaya Aapne", "Aap Ki Kashish", "Tera Mera Rishta", "Tere Bin", "Maula Mere Maula", "Tum Se Hi", "In Dino", "Mauja Hi Mauja", "Nagada Nagada", "Yeh Ishq Hai", "Jab Se Tere Naina", "Pehli Nazar Mein", "Tera Hone Laga Hoon", "Tu Jaane Na", "Kaho Naa Kaho", "Awarapan Banjarapan", "Bheege Honth Tere", "Woh Ajnabee", "Zara Zara Touch Me", "Crazy Kiya Re", "Dhoom Machale", "Dil Laga Na", "Kajra Re", "Ishq Hua", "Chand Sifarish", "Mere Haath Mein", "Desi Girl", "Deewangi Deewangi", "Dard-E-Disco", "Om Shanti Om", "Main Agar Kahoon", "Khuda Jaane", "Jashn-E-Bahaara", "In Lamhon Ke Daaman Mein", "Teri Ore", "Teri Meri", "Tujh Mein Rab Dikhta Hai", "Haule Haule", "Dance Pe Chance", "Marjaani", "Chor Bazari", "Aahun Aahun", "Twist", "Subah Hone Na De", "Pehli Baar Mohabbat", "Masakali", "Rehna Tu", "Genda Phool", "Aaj Din Chadheya", "Guzaarish", "Pee Loon", "Tum Jo Aaye", "Tujhe Bhula Diya", "Munni Badnaam Hui", "Sheila Ki Jawani", "Character Dheela", "Desi Beat", "Senorita", "Ik Junoon", "Dil Dhadakne Do", "Khaabon Ke Parinday", "Kun Faya Kun", "Nadaan Parindey", "Tum Ho", "Phir Se Ud Chala", "Jo Bhi Main", "Sadda Haq", "Agar Tum Mil Jao", "Jiya Dhadak Dhadak", "Aashayein", "Dil Ibaadat", "Tu Hi Haqeeqat", "Zara Si Dil Mein", "Teri Jhuki Nazar", "Tum Hi Ho", "Chahun Main Ya Naa", "Sunn Raha Hai", "Piya Aaye Na", "Bhula Dena", "Milne Hai Mujhse Aayi", "Kabira", "Ilahi", "Badtameez Dil", "Balam Pichkari", "Subhanallah", "Tum Tak", "Raanjhanaa", "Saware", "Samjhawan", "Galliyan", "Muskurane", "Humdard", "Zaroorat", "Lo Maan Liya", "Sanam Re"].map(title => ({title}));
+let PLAYLIST = ["Pal Pal Dil Ke Paas", "Chura Liya Hai Tumne Jo Dil Ko", "Kya Hua Tera Wada", "O Mere Dil Ke Chain", "Yeh Dosti Hum Nahin Todenge", "Tere Bina Zindagi Se", "Lag Ja Gale", "Aap Ki Aankhon Mein Kuch", "Rimjhim Gire Saawan", "Kabhi Kabhie Mere Dil Mein", "Ek Ajnabee Haseena Se", "Mere Sapno Ki Rani", "Roop Tera Mastana", "Pyaar Deewana Hota Hai", "Zindagi Ek Safar Hai Suhana", "Musafir Hoon Yaaron", "Tere Mere Milan Ki Yeh Raina", "Bade Achhe Lagte Hain", "Dil Kya Kare", "Humein Tumse Pyaar Kitna", "Aanewala Pal Janewala Hai", "Tere Chehre Se Nazar Nahin", "Yeh Shaam Mastani", "Gulabi Aankhen", "Kora Kagaz Tha Yeh Man Mera", "Tere Bina Jiya Jaye Na", "Pyaar Hua Iqrar Hua", "Ajeeb Dastaan Hai Yeh", "Aaja Aaja Main Hoon Pyar Tera", "Aaj Kal Tere Mere Pyar Ke Charche", "Meri Mehbooba", "Humko Sirf Tumse", "Pehla Nasha", "Ek Ladki Ko Dekha", "Kuch Na Kaho", "Tujhe Dekha To", "Ho Gaya Hai Tujhko To Pyar Sajna", "Ruk Ja O Dil Deewane", "Mehndi Laga Ke Rakhna", "Didi Tera Devar Deewana", "Kabhi Main Kahoon", "Dil Hai Ke Manta Nahin", "Adayein Bhi Hain", "Tu Pyar Hai Kisi Aur Ka", "Main Duniya Bhula Doonga", "Nazar Ke Samne", "Jeeye To Jeeye Kaise", "Dheere Dheere Se Meri Zindagi", "Sochenge Tumhe Pyar", "Do Dil Mil Rahe Hain", "Pardesi Pardesi", "Kitna Pyaara Tujhe Rabne Banaya", "Teri Chunnariya", "Aankhon Se Tune Kya Keh Diya", "Jadoo Hai Tera", "Jo Haal Dil Ka", "Kahin Pyaar Na Ho Jaaye", "Mera Mann", "Chand Chhupa Badal Mein", "Taal Se Taal Mila", "Ishq Bina", "Ramta Jogi", "Chaiyya Chaiyya", "Dil Se Re", "Ae Ajnabi", "Satrangi Re", "Yeh Haseen Wadiyan", "Tu Hi Re", "Hum Dil De Chuke Sanam", "Aankhon Ki Gustakhiyan", "Nimbooda", "Dholi Taro Dhol Baaje", "Madhosh Dil Ki Dhadkan", "Aankh Hai Bhari Bhari", "Mera Dil Bhi Kitna Pagal Hai", "Tumhein Apna Banane Ki Kasam", "Saajan Saajan", "Bahut Pyaar Karte Hain", "Tu Shayar Hai", "Dekha Hai Pehli Baar", "Pehli Baar Mile Hain", "Mujhe Neend Na Aaye", "Papa Kehte Hain", "Gazab Ka Hai Din", "Akele Hain To Kya Gham Hai", "Khambe Jaisi Khadi Hai", "Main Koi Aisa Geet Gaoon", "Chupana Bhi Nahi Aata", "Tere Dar Par Sanam", "Yeh Kaali Kaali Aankhen", "Baazigar O Baazigar", "Kitabein Bahut Si", "Jaati Hoon Main", "Soldier Soldier", "Mere Khwabon Mein", "Ladki Badi Anjani Hai", "Koi Mil Gaya", "Kuch Kuch Hota Hai", "Saajanji Ghar Aaye", "Yeh Ladka Hai Deewana", "Tujhe Yaad Na Meri Aayee", "Pyaar Kar", "Dil To Pagal Hai", "Are Re Are", "Bholi Si Surat", "Le Gayi", "Dholna", "Chand Sitare", "Aati Kya Khandala", "Mere Mehboob Mere Sanam", "Chamma Chamma", "Choli Ke Peeche", "Duniya Haseeno Ka Mela", "Ankhiyon Se Goli Maare", "Makhna", "Sona Kitna Sona Hai", "O O Jaane Jaana", "Pyaar Kiya To Nibhana", "Kisi Disco Mein Jaaye", "Hai Hukku Hai Hukku", "Tan Tana Tan", "Oonchi Hai Building", "UP Wala Thumka", "What Is Mobile Number", "Kisi Din Banoongi Main", "Tere Pyar Mein Dil Deewana", "Tere Ishq Mein Nachenge", "Mera Chand Mujhe Aaya Hai Nazar", "Aankhon Mein Base Ho Tum", "Hum Laakh Chupaye", "Kal Ho Naa Ho", "Pretty Woman", "Maahi Ve", "Kuch To Hua Hai", "Suraj Hua Maddham", "You Are My Soniya", "Mitwa", "Tumhi Dekho Naa", "Kabhi Alvida Naa Kehna", "Where's The Party Tonight", "It's The Time To Disco", "Koi Kahe Kehta Rahe", "Dil Chahta Hai", "Jaane Kyon", "Tanhayee", "Aankhon Mein Teri", "Ajab Si", "Zara Sa", "Haan Tu Hain", "Kya Mujhe Pyaar Hai", "Tu Hi Meri Shab Hai", "Aadat", "Bheegi Bheegi", "Woh Lamhe Woh Baatein", "Jhalak Dikhla Ja", "Aashiq Banaya Aapne", "Aap Ki Kashish", "Tera Mera Rishta", "Tere Bin", "Maula Mere Maula", "Tum Se Hi", "In Dino", "Mauja Hi Mauja", "Nagada Nagada", "Yeh Ishq Hai", "Jab Se Tere Naina", "Pehli Nazar Mein", "Tera Hone Laga Hoon", "Tu Jaane Na", "Kaho Naa Kaho", "Awarapan Banjarapan", "Bheege Honth Tere", "Woh Ajnabee", "Zara Zara Touch Me", "Crazy Kiya Re", "Dhoom Machale", "Dil Laga Na", "Kajra Re", "Ishq Hua", "Chand Sifarish", "Mere Haath Mein", "Desi Girl", "Deewangi Deewangi", "Dard-E-Disco", "Om Shanti Om", "Main Agar Kahoon", "Khuda Jaane", "Jashn-E-Bahaara", "In Lamhon Ke Daaman Mein", "Teri Ore", "Teri Meri", "Tujh Mein Rab Dikhta Hai", "Haule Haule", "Dance Pe Chance", "Marjaani", "Chor Bazari", "Aahun Aahun", "Twist", "Subah Hone Na De", "Pehli Baar Mohabbat", "Masakali", "Rehna Tu", "Genda Phool", "Aaj Din Chadheya", "Guzaarish", "Pee Loon", "Tum Jo Aaye", "Tujhe Bhula Diya", "Munni Badnaam Hui", "Sheila Ki Jawani", "Character Dheela", "Desi Beat", "Senorita", "Ik Junoon", "Dil Dhadakne Do", "Khaabon Ke Parinday", "Kun Faya Kun", "Nadaan Parindey", "Tum Ho", "Phir Se Ud Chala", "Jo Bhi Main", "Sadda Haq", "Agar Tum Mil Jao", "Jiya Dhadak Dhadak", "Aashayein", "Dil Ibaadat", "Tu Hi Haqeeqat", "Zara Si Dil Mein", "Teri Jhuki Nazar", "Tum Hi Ho", "Chahun Main Ya Naa", "Sunn Raha Hai", "Piya Aaye Na", "Bhula Dena", "Milne Hai Mujhse Aayi", "Kabira", "Ilahi", "Badtameez Dil", "Balam Pichkari", "Subhanallah", "Tum Tak", "Raanjhanaa", "Saware", "Samjhawan", "Galliyan", "Muskurane", "Humdard", "Zaroorat", "Lo Maan Liya", "Sanam Re"].map(title => ({title}));
 const $ = id => document.getElementById(id);
 let busMode = false;
 const autoEngine = new Audio("sounds/auto-engine.mp3");
@@ -471,6 +471,37 @@ function setTitle(t){ $('songT').textContent=t; const s=$('song'); s.classList.r
 // A public Hindi Bollywood playlist plays inside the page. YouTube does not permit
 // arbitrary song-title search inside an embed, so the embedded playlist controls select tracks.
 const YT_PLAYLIST_ID = 'PLJntzxC_E8to';
+let ytPlaylistSyncStarted = false;
+async function syncActualYouTubePlaylist(player){
+  // Use the IDs returned by the embedded YouTube playlist as the source of truth,
+  // rather than the old manually typed 250-song list.
+  try {
+    const ids = player.getPlaylist ? player.getPlaylist() : [];
+    if (!Array.isArray(ids) || !ids.length) return;
+    const actual = ids.map((videoId, i) => ({title:`Loading song ${i+1}…`, videoId}));
+    PLAYLIST = actual;
+    if (playMode === 'youtube') { tracks = PLAYLIST.slice(); idx = Math.max(0, player.getPlaylistIndex ? player.getPlaylistIndex() : 0); renderSongList(); }
+    $('songBrowserCount').textContent = `${actual.length} गाने • असली YouTube playlist`;
+    // YouTube's public oEmbed endpoint returns the actual title for each video.
+    // Keep IDs/order from the playlist even if a title request fails.
+    await Promise.all(actual.map(async (item, i) => {
+      try {
+        const url = 'https://www.youtube.com/oembed?format=json&url=' + encodeURIComponent('https://www.youtube.com/watch?v=' + item.videoId);
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('oEmbed title unavailable');
+        const data = await response.json();
+        if (data && data.title) item.title = data.title;
+      } catch (_) { item.title = `YouTube video ${i+1}`; }
+      if (playMode === 'youtube') { tracks = PLAYLIST.slice(); renderSongList(); }
+    }));
+    if (playMode === 'youtube') {
+      tracks = PLAYLIST.slice();
+      idx = Math.max(0, player.getPlaylistIndex ? player.getPlaylistIndex() : 0);
+      setTitle(PLAYLIST[idx]?.title || 'YouTube playlist');
+      renderSongList();
+    }
+  } catch (err) { console.warn('Could not read actual YouTube playlist:', err); }
+}
 function ensurePlayer(autoplay=true){
   const card=$('musicMiniCard');
   card.classList.add('youtube-mode');
@@ -481,6 +512,7 @@ function ensurePlayer(autoplay=true){
     return;
   }
   if(ytReady && ytPlayer){
+    if (playMode === 'youtube') { const ids = ytPlayer.getPlaylist ? ytPlayer.getPlaylist() : []; if (Array.isArray(ids) && ids.length && (!PLAYLIST.length || PLAYLIST[0].videoId !== ids[0] || PLAYLIST.length !== ids.length)) syncActualYouTubePlaylist(ytPlayer); }
     if(autoplay){
       try {
         const state=ytPlayer.getPlayerState();
@@ -506,6 +538,7 @@ function ensurePlayer(autoplay=true){
           setTimeout(()=>{try{applyMusicVolume();}catch(err){}},0);
           try { e.target.getIframe().setAttribute('referrerpolicy','strict-origin-when-cross-origin'); } catch(err){}
           try { e.target.setLoop(false); e.target.setShuffle(false); } catch(err){}
+          if (!ytPlaylistSyncStarted) { ytPlaylistSyncStarted = true; let attempts = 0; const syncWhenReady = async () => { attempts++; const ids = e.target.getPlaylist ? e.target.getPlaylist() : []; if (Array.isArray(ids) && ids.length) { await syncActualYouTubePlaylist(e.target); return; } if (attempts < 20) setTimeout(syncWhenReady, 1000); else if (attempts === 20) { try { e.target.loadPlaylist({list: YT_PLAYLIST_ID, listType: 'playlist', index: 0}); } catch (_) {} setTimeout(syncWhenReady, 1500); } else { $('songBrowserCount').textContent = 'YouTube playlist load नहीं हुई'; toast('YouTube playlist IDs नहीं मिलीं। Playlist public है या नहीं जाँचें।'); } }; setTimeout(syncWhenReady, 1000); }
           // Playlist is supplied when the iframe is created; do not reload it here.
           // Wait for the user to press Play so playback starts from a clear user action.
         },
@@ -518,7 +551,16 @@ function ensurePlayer(autoplay=true){
           if(e.data===YT.PlayerState.PLAYING){
             try{applyMusicVolume();}catch(err){}
             updateSeekUI(); $('playIc').innerHTML=PAUSE; $('time').textContent='YouTube पर चल रहा है';
-            try { const d=e.target.getVideoData(); if(d && d.title) setTitle(d.title); } catch(err){}
+            try {
+              const pi = e.target.getPlaylistIndex ? e.target.getPlaylistIndex() : -1;
+              if (Number.isInteger(pi) && pi >= 0) idx = pi;
+              const d=e.target.getVideoData();
+              if(d && d.title) {
+                setTitle(d.title);
+                if (PLAYLIST[idx]) PLAYLIST[idx].title = d.title;
+                if (playMode === 'youtube') { tracks = PLAYLIST.slice(); renderSongList(); }
+              }
+            } catch(err){}
             ytSkipAttempts=0;
           } else if(e.data===YT.PlayerState.PAUSED){
             $('playIc').innerHTML=PLAY;
@@ -575,7 +617,7 @@ function renderSongList(){
   const visible=tracks.map((track,originalIndex)=>({track,originalIndex})).filter(x=>x.track.title.toLocaleLowerCase().includes(query));
   $('songBrowserButtonCount').textContent=tracks.length?`(${tracks.length})`:'';
   $('songBrowserCount').textContent=playMode==='local'?`${tracks.length} local गाने • सीधे songs/ folder से`:`${tracks.length} गाने • YouTube playlist`;
-  if(!visible.length){list.innerHTML='<div class="song-empty">'+(playMode==='local'?'Local गाने लोड हो रहे हैं…':'कोई गाना नहीं मिला।')+'</div>';return;}
+  if(!visible.length){list.innerHTML='<div class="song-empty">'+(playMode==='local'?'Local गाने लोड हो रहे हैं…':(ytReady?'YouTube playlist से गाने लोड हो रहे हैं…':'YouTube playlist load होने का इंतज़ार करें…'))+'</div>';return;}
   list.innerHTML='';
   visible.forEach(({track,originalIndex})=>{
     const b=document.createElement('button'); b.type='button'; b.className='song-option'+(originalIndex===idx?' current':'');
@@ -612,8 +654,11 @@ function setMode(mode){
   }else{
     a.pause();if(tracks.length)idx=Math.floor(Math.random()*PLAYLIST.length);$('youtubePlayer').style.display='block';
     $('youtubeModeList').classList.add('active');$('localModeList').classList.remove('active');
-    tracks=PLAYLIST.slice();idx=Math.min(idx,Math.max(0,tracks.length-1));
-    setTitle(tracks[idx]?.title||'YouTube playlist');$('time').textContent='YouTube playlist';
+    tracks = PLAYLIST.some(t => t.videoId) ? PLAYLIST.slice() : [];
+    idx = Math.min(idx, Math.max(0, tracks.length - 1));
+    setTitle(tracks[idx]?.title || 'YouTube playlist loading…');
+    $('time').textContent = 'YouTube playlist load हो रही है…';
+    $('songBrowserCount').textContent = 'YouTube playlist load हो रही है…';
     ensurePlayer(true);
   }
   renderSongList();
