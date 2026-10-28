@@ -470,7 +470,7 @@ const PLAY = '<path d="M8 5v14l11-7z"/>', PAUSE = '<path d="M6 5h4v14H6zm8 0h4v1
 function setTitle(t){ $('songT').textContent=t; const s=$('song'); s.classList.remove('run'); requestAnimationFrame(()=>{if($('songT').scrollWidth>s.clientWidth)s.classList.add('run');}); }
 // A public Hindi Bollywood playlist plays inside the page. YouTube does not permit
 // arbitrary song-title search inside an embed, so the embedded playlist controls select tracks.
-const YT_PLAYLIST_ID = 'PLfdfb0LKtKKs8IcyIvtsf_FfmJU-1pbI1';
+const YT_PLAYLIST_ID = 'PLJntzxC_E8to';
 function ensurePlayer(autoplay=true){
   const card=$('musicMiniCard');
   card.classList.add('youtube-mode');
@@ -531,13 +531,32 @@ function ensurePlayer(autoplay=true){
         onError: function(e){
           $('playIc').innerHTML=PLAY;
           const reason = ({2:'वीडियो ID या playlist गलत है।',5:'HTML5 playback error।',100:'वीडियो हटाया गया या निजी है।',101:'इस वीडियो को embed करने की अनुमति नहीं है।',150:'इस वीडियो को embed करने की अनुमति नहीं है।',153:'YouTube को referrer जानकारी नहीं मिली।'})[e.data] || 'YouTube वीडियो नहीं चला।';
-          if([2,5,100,101,150,153].includes(e.data) && ytSkipAttempts < 20){
+          // Some playlist videos block embedding. Skip them and explicitly reload
+          // the next playlist item, rather than leaving the unavailable-video card visible.
+          if([2,5,100,101,150,153].includes(e.data) && ytSkipAttempts < 40){
             ytSkipAttempts++;
-            $('time').textContent='अगला गाना खोल रहे हैं…';
-            setTimeout(()=>{try{if(ytPlayer)ytPlayer.nextVideo();}catch(err){}},700);
+            $('time').textContent='यह वीडियो उपलब्ध नहीं — अगला गाना लोड हो रहा है…';
+            const attempt = ytSkipAttempts;
+            setTimeout(()=>{
+              try {
+                if(!ytPlayer) return;
+                const nextIndex = (Math.max(0, idx) + 1) % Math.max(1, PLAYLIST.length);
+                idx = nextIndex;
+                try { ytPlayer.playVideoAt(nextIndex); } catch(err) {}
+                setTimeout(()=>{
+                  try {
+                    const data = ytPlayer.getVideoData && ytPlayer.getVideoData();
+                    if ((!data || !data.video_id) && attempt === ytSkipAttempts) {
+                      ytPlayer.loadPlaylist({list:YT_PLAYLIST_ID,listType:'playlist',index:nextIndex});
+                      setTimeout(()=>{try{ytPlayer.playVideo();}catch(err){}},500);
+                    } else { try { ytPlayer.playVideo(); } catch(err){} }
+                  } catch(err) {}
+                },900);
+              } catch(err) { console.warn('Could not skip unavailable YouTube item:',err); }
+            },800);
           } else {
             $('time').textContent='YouTube playback blocked ('+e.data+')';
-            toast(reason+' YouTube कुछ वीडियो को embed होने से रोकता है; Local mode उपलब्ध है।');
+            toast(reason+' YouTube कुछ वीडियो को embed होने से रोकता है; अगला गाना चुनें या Local mode इस्तेमाल करें।');
           }
         }
       }
