@@ -467,7 +467,7 @@ html,body{min-height:100%;}
 
 <style>
 
-/* Amazon Pay QR modal */
+/* Chai Paani UPI QR modal — QR embedded so it works on Vercel without a separate image file */
 .pay-open{position:relative;flex:0 0 auto;z-index:40;display:flex;align-items:center;justify-content:center;gap:7px;height:42px;min-width:46px;padding:0 12px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(17,22,27,.72);color:#fff;font:800 13px system-ui,sans-serif;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 6px 22px #0004;cursor:pointer;white-space:nowrap}
 .pay-open:active{transform:scale(.97)}
 .pay-overlay{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
@@ -562,10 +562,10 @@ html,body{min-height:100%;}
 <div class="pay-overlay" id="payOverlay" role="presentation">
   <section class="pay-dialog" role="dialog" aria-modal="true" aria-labelledby="payTitle">
     <button class="pay-close" id="payClose" type="button" aria-label="Close payment QR">×</button>
-    <div style="font:800 23px system-ui,sans-serif;color:#111;margin:4px 0 12px">amazon pay</div>
+    
     <h2 id="payTitle">Chai Paani ☕</h2>
     <p>Scan this QR code using any UPI payment app.</p>
-    <img class="pay-qr" src="amazon-pay-qr.png" alt="Amazon Pay UPI QR code" loading="lazy" decoding="async">
+    <img class="pay-qr" src="data:image/png;base64,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" alt="UPI QR code for Chai Paani" width="300" height="300" decoding="async">
     <div class="pay-upi">UPI ID: 9525859545@yapl</div>
     <button class="pay-copy" id="payCopy" type="button">Copy UPI ID</button>
     <p class="pay-note">Please verify the recipient name in your UPI app before paying.</p>
@@ -632,9 +632,12 @@ async function syncActualYouTubePlaylist(player){
     if (!Array.isArray(ids) || !ids.length) return;
     const actual = ids.map((videoId, i) => ({title:`Loading song ${i+1}…`, videoId}));
     PLAYLIST = actual;
-    // Pick a fresh random track once per page load, using the real YouTube playlist length.
+    // Shuffle each selected category independently, then start at a random track.
     if (!ytRandomStartChosen) {
-      idx = Math.floor(Math.random() * actual.length);
+      try { player.setShuffle(true); } catch (_) {}
+      const shuffledIds = player.getPlaylist ? player.getPlaylist() : [];
+      const playlistLength = Array.isArray(shuffledIds) && shuffledIds.length ? shuffledIds.length : actual.length;
+      idx = Math.floor(Math.random() * playlistLength);
       ytRandomStartChosen = true;
       try { player.playVideoAt(idx); } catch (_) {}
     } else {
@@ -836,11 +839,11 @@ function setMode(mode){
 }
 function switchCategory(category){
   if(!YT_PLAYLISTS[category]){toast('इस कैटेगरी की playlist link अभी जोड़नी है।');return;}
-  currentCategory=category; YT_PLAYLIST_ID=YT_PLAYLISTS[category]; idx=0; PLAYLIST=[]; tracks=[]; ytPlaylistSyncStarted=false;
+  currentCategory=category; YT_PLAYLIST_ID=YT_PLAYLISTS[category]; idx=0; PLAYLIST=[]; tracks=[]; ytPlaylistSyncStarted=false; ytRandomStartChosen=false;
   $('musicCategory').value=category; $('musicCategoryList').value=category;
   playMode='youtube'; $('musicMiniCard').classList.add('youtube-mode'); $('youtubePlayer').style.display='block';
   $('songBrowserCount').textContent='Playlist लोड हो रही है…'; $('time').textContent='Playlist लोड हो रही है…'; setTitle(category==='bhojpuri'?'भोजपुरी गाने लोड हो रहे हैं…':'Hindi / Bollywood गाने लोड हो रहे हैं…');
-  if(ytReady&&ytPlayer){try{ytPlayer.loadPlaylist({listType:'playlist',list:YT_PLAYLIST_ID,index:0});ytPlayer.playVideo();setTimeout(()=>{if(ytPlayer)syncActualYouTubePlaylist(ytPlayer);},1600);}catch(e){ensurePlayer(true);}}else ensurePlayer(true);
+  if(ytReady&&ytPlayer){try{ytPlayer.loadPlaylist({listType:'playlist',list:YT_PLAYLIST_ID,index:0});setTimeout(()=>{try{if(ytPlayer){ytPlayer.setShuffle(true);syncActualYouTubePlaylist(ytPlayer);ytPlayer.playVideo();}}catch(_){}},1300);}catch(e){ensurePlayer(true);}}else ensurePlayer(true);
   renderSongList(); syncMiniMode();
 }
 $('musicCategory').addEventListener('change',e=>switchCategory(e.target.value));
