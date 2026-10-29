@@ -533,7 +533,7 @@ html,body{min-height:100%;}
   <button class="song-browser-trigger" id="songBrowserToggle" type="button" aria-expanded="false" aria-controls="songBrowser">♫ सभी गाने <span id="songBrowserButtonCount">…</span></button>
   <div class="mini-mode-switch category-switch" role="group" aria-label="Song category">
     <label for="musicCategory">♫ गाने की कैटेगरी</label>
-    <div hidden><button id="miniLocalMode" type="button"></button><button id="miniYouTubeMode" type="button"></button></div><select id="musicCategory"><option value="bhojpuri">🎵 भोजपुरी</option><option value="bollywood">🎬 Hindi / Bollywood</option><option value="punjabi" disabled>🎤 Punjabi (playlist link needed)</option></select>
+    <div hidden><button id="miniLocalMode" type="button"></button><button id="miniYouTubeMode" type="button"></button></div><select id="musicCategory"><option value="bollywood">🎬 Hindi / Bollywood</option><option value="bhojpuri">🎵 भोजपुरी</option><option value="punjabi" disabled>🎤 Punjabi (playlist link needed)</option></select>
   </div>
   <div id="youtubePlayer" aria-label="YouTube music player"></div>
   <audio id="localAudio" preload="none" style="display:none" aria-hidden="true"></audio>
@@ -554,7 +554,7 @@ html,body{min-height:100%;}
 
 
 <section class="song-browser" id="songBrowser" aria-label="गानों की सूची">
-  <div class="song-browser-head"><div><div class="song-browser-title">अपनी कैटेगरी से गाना चुनें</div><div class="song-browser-count" id="songBrowserCount">गाने लोड हो रहे हैं…</div></div><button class="song-browser-close" id="songBrowserClose" type="button" aria-label="बंद करें">×</button></div><div class="mode-switch browser-modes" role="group" aria-label="गानों की कैटेगरी"><label for="musicCategoryList">गाने की कैटेगरी</label><select id="musicCategoryList"><option value="bhojpuri">🎵 भोजपुरी</option><option value="bollywood">🎬 Hindi / Bollywood</option><option value="punjabi" disabled>🎤 Punjabi (playlist link needed)</option></select><div hidden><button id="localModeList" type="button"></button><button id="youtubeModeList" type="button"></button></div></div>
+  <div class="song-browser-head"><div><div class="song-browser-title">अपनी कैटेगरी से गाना चुनें</div><div class="song-browser-count" id="songBrowserCount">गाने लोड हो रहे हैं…</div></div><button class="song-browser-close" id="songBrowserClose" type="button" aria-label="बंद करें">×</button></div><div class="mode-switch browser-modes" role="group" aria-label="गानों की कैटेगरी"><label for="musicCategoryList">गाने की कैटेगरी</label><select id="musicCategoryList"><option value="bollywood">🎬 Hindi / Bollywood</option><option value="bhojpuri">🎵 भोजपुरी</option><option value="punjabi" disabled>🎤 Punjabi (playlist link needed)</option></select><div hidden><button id="localModeList" type="button"></button><button id="youtubeModeList" type="button"></button></div></div>
   <input class="song-search" id="songSearch" type="search" placeholder="गाना खोजें…" autocomplete="off" aria-label="गाना खोजें">
   <div class="song-list" id="songList" role="listbox" aria-label="सभी गाने"></div>
 </section>
@@ -610,7 +610,7 @@ function setTitle(t){ $('songT').textContent=t; const s=$('song'); s.classList.r
 // A public Hindi Bollywood playlist plays inside the page. YouTube does not permit
 // arbitrary song-title search inside an embed, so the embedded playlist controls select tracks.
 const YT_PLAYLISTS = { bhojpuri: 'PLAr38M0Lumn0', bollywood: 'PLJntzxC_E8to' };
-let currentCategory = 'bhojpuri';
+let currentCategory = 'bollywood';
 let YT_PLAYLIST_ID = YT_PLAYLISTS[currentCategory];
 let ytPlaylistSyncStarted = false;
 let ytRandomStartChosen = false;
@@ -884,8 +884,8 @@ async function loadHostedSongs(){
 $('play').onclick=toggle;
 $('next').onclick=()=>{if(playMode==='local')playLocal((idx+1)%Math.max(1,localTracks.length));else if(ytReady)ytPlayer.nextVideo();else ensurePlayer(true);};
 $('prev').onclick=()=>{if(playMode==='local')playLocal((idx-1+Math.max(1,localTracks.length))%Math.max(1,localTracks.length));else if(ytReady)ytPlayer.previousVideo();else ensurePlayer(true);};
-$('time').textContent='भोजपुरी playlist लोड हो रही है…';
-renderSongList();setTitle('भोजपुरी गाने लोड हो रहे हैं…');
+$('time').textContent='Hindi / Bollywood playlist लोड हो रही है…';
+renderSongList();setTitle('Hindi / Bollywood गाने लोड हो रहे हैं…');
 playMode='youtube'; $('musicMiniCard').classList.add('youtube-mode'); $('youtubePlayer').style.display='block'; syncMiniMode(); ensurePlayer(false);
 
 // Drag the compact player by its header; keep it inside the visible viewport.
