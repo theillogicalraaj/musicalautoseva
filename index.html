@@ -478,7 +478,7 @@ html,body{min-height:100%;}
 .pay-logo{display:block;max-width:155px;max-height:44px;object-fit:contain;margin:3px auto 12px}
 .pay-dialog h2{font:800 22px system-ui,sans-serif;margin:4px 35px 4px}
 .pay-dialog p{font:500 13px/1.45 system-ui,sans-serif;color:#596575;margin:0 0 12px}
-.pay-qr{display:block;width:min(100%,300px);height:auto;aspect-ratio:1;object-fit:contain;margin:8px auto 12px;background:#fff}
+.pay-qr{display:block;width:min(100%,300px);height:auto;aspect-ratio:1;object-fit:contain;margin:8px auto 12px;background:#fff;image-rendering:pixelated;border-radius:4px}
 .pay-upi{font:700 16px/1.4 system-ui,sans-serif;overflow-wrap:anywhere;margin:8px 0 14px}
 .pay-copy{border:0;border-radius:999px;padding:11px 18px;background:#087f8c;color:#fff;font:700 14px system-ui,sans-serif;cursor:pointer}
 .pay-note{font:500 11px system-ui,sans-serif;color:#7b8490!important;margin-top:12px!important}
@@ -614,6 +614,8 @@ let currentCategory = 'bollywood';
 let YT_PLAYLIST_ID = YT_PLAYLISTS[currentCategory];
 let ytPlaylistSyncStarted = false;
 let ytRandomStartChosen = false;
+let playlistSwitchToken = 0;
+let loadedPlaylistId = ''; 
 const connectionInfo = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
 const LOW_BANDWIDTH = !!(connectionInfo && (connectionInfo.saveData || /^(slow-2g|2g|3g)$/.test(connectionInfo.effectiveType || '') || (Number(connectionInfo.downlink) > 0 && Number(connectionInfo.downlink) < 1.5)));
 const VERY_SLOW_NETWORK = !!(connectionInfo && (connectionInfo.saveData || /^(slow-2g|2g)$/.test(connectionInfo.effectiveType || '') || (Number(connectionInfo.downlink) > 0 && Number(connectionInfo.downlink) < 0.7)));
@@ -711,9 +713,30 @@ function ensurePlayer(autoplay=true){
           setTimeout(()=>{try{applyMusicVolume();}catch(err){}},0);
           try { e.target.getIframe().setAttribute('referrerpolicy','strict-origin-when-cross-origin'); } catch(err){}
           try { e.target.setLoop(false); e.target.setShuffle(false); } catch(err){}
-          if (!ytPlaylistSyncStarted) { ytPlaylistSyncStarted = true; let attempts = 0; const syncWhenReady = async () => { attempts++; const ids = e.target.getPlaylist ? e.target.getPlaylist() : []; if (Array.isArray(ids) && ids.length) { await syncActualYouTubePlaylist(e.target); return; } if (attempts < 20) setTimeout(syncWhenReady, 1000); else if (attempts === 20) { try { e.target.loadPlaylist({list: YT_PLAYLIST_ID, listType: 'playlist', index: 0}); } catch (_) {} setTimeout(syncWhenReady, 1500); } else { $('songBrowserCount').textContent = 'YouTube playlist load नहीं हुई'; toast('YouTube playlist IDs नहीं मिलीं। Playlist public है या नहीं जाँचें।'); } }; setTimeout(syncWhenReady, 1000); }
-          // Playlist is supplied when the iframe is created; do not reload it here.
-          // Wait for the user to press Play so playback starts from a clear user action.
+          // Always load the latest selected category. This also fixes changing categories
+          // while the YouTube iframe/API is still loading.
+          const categoryAtReady = currentCategory;
+          const playlistAtReady = YT_PLAYLIST_ID;
+          try {
+            e.target.loadPlaylist({listType:'playlist', list:playlistAtReady, index:0});
+            loadedPlaylistId = playlistAtReady;
+          } catch (_) {}
+          if (!ytPlaylistSyncStarted) {
+            ytPlaylistSyncStarted = true;
+            let attempts = 0;
+            const syncWhenReady = async () => {
+              if (!ytPlayer || playlistAtReady !== YT_PLAYLIST_ID || categoryAtReady !== currentCategory) return;
+              attempts++;
+              const ids = e.target.getPlaylist ? e.target.getPlaylist() : [];
+              if (Array.isArray(ids) && ids.length) {
+                await syncActualYouTubePlaylist(e.target);
+                return;
+              }
+              if (attempts < 20) setTimeout(syncWhenReady, 1000);
+              else { $('songBrowserCount').textContent = 'YouTube playlist load नहीं हुई'; toast('इस playlist को YouTube से load नहीं किया जा सका। Playlist public है या नहीं जाँचें।'); }
+            };
+            setTimeout(syncWhenReady, 1200);
+          }
         },
         onAutoplayBlocked: function(){
           $('playIc').innerHTML=PLAY;
@@ -839,11 +862,37 @@ function setMode(mode){
 }
 function switchCategory(category){
   if(!YT_PLAYLISTS[category]){toast('इस कैटेगरी की playlist link अभी जोड़नी है।');return;}
-  currentCategory=category; YT_PLAYLIST_ID=YT_PLAYLISTS[category]; idx=0; PLAYLIST=[]; tracks=[]; ytPlaylistSyncStarted=false; ytRandomStartChosen=false;
+  currentCategory=category;
+  YT_PLAYLIST_ID=YT_PLAYLISTS[category];
+  const token=++playlistSwitchToken;
+  idx=0; PLAYLIST=[]; tracks=[]; ytPlaylistSyncStarted=false; ytRandomStartChosen=false;
+  loadedPlaylistId='';
   $('musicCategory').value=category; $('musicCategoryList').value=category;
   playMode='youtube'; $('musicMiniCard').classList.add('youtube-mode'); $('youtubePlayer').style.display='block';
-  $('songBrowserCount').textContent='Playlist लोड हो रही है…'; $('time').textContent='Playlist लोड हो रही है…'; setTitle(category==='bhojpuri'?'भोजपुरी गाने लोड हो रहे हैं…':'Hindi / Bollywood गाने लोड हो रहे हैं…');
-  if(ytReady&&ytPlayer){try{ytPlayer.loadPlaylist({listType:'playlist',list:YT_PLAYLIST_ID,index:0});setTimeout(()=>{try{if(ytPlayer){ytPlayer.setShuffle(true);syncActualYouTubePlaylist(ytPlayer);ytPlayer.playVideo();}}catch(_){}},1300);}catch(e){ensurePlayer(true);}}else ensurePlayer(true);
+  const label=category==='bhojpuri'?'भोजपुरी':'Hindi / Bollywood';
+  $('songBrowserCount').textContent=label+' playlist लोड हो रही है…';
+  $('time').textContent=label+' playlist लोड हो रही है…';
+  setTitle(label+' गाने लोड हो रहे हैं…');
+  if(ytReady&&ytPlayer){
+    try{
+      ytPlayer.stopVideo();
+      ytPlayer.loadPlaylist({listType:'playlist',list:YT_PLAYLIST_ID,index:0});
+      loadedPlaylistId=YT_PLAYLIST_ID;
+      setTimeout(()=>{
+        if(token!==playlistSwitchToken || !ytPlayer || currentCategory!==category)return;
+        try{
+          const ids=ytPlayer.getPlaylist?ytPlayer.getPlaylist():[];
+          if(!Array.isArray(ids)||!ids.length){ytPlayer.loadPlaylist({listType:'playlist',list:YT_PLAYLIST_ID,index:0});}
+          ytPlayer.setShuffle(true);
+          setTimeout(()=>{if(token===playlistSwitchToken&&ytPlayer){syncActualYouTubePlaylist(ytPlayer);}},900);
+          ytPlayer.playVideo();
+        }catch(_){}
+      },1200);
+    }catch(e){ensurePlayer(true);}
+  }else{
+    // If the YouTube API is still loading, onReady will load this latest category.
+    ensurePlayer(true);
+  }
   renderSongList(); syncMiniMode();
 }
 $('musicCategory').addEventListener('change',e=>switchCategory(e.target.value));
